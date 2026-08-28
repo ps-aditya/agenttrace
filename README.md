@@ -59,14 +59,16 @@ numbers — you can trace the API call's shape directly in
 ## Architecture
 
 ```
- ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐   ┌──────────┐
- │ OBSERVE  │→ │ REASON   │→ │ VERIFY   │→ │ CONTROL  │→ │ AUDIT    │
- │ catalog  │   │ brain.ts │   │ verify.ts│   │breakpoint│   │tracer.ts │
- │  .ts     │   │          │   │          │   │  .ts     │   │          │
- └──────────┘   └──────────┘   └──────────┘   └──────────┘   └──────────┘
- candidates,     agent picks    diffs           pauses,       every event
- intent          + justifies    authorized      prints diff,  → JSON trace
-                                 vs actual       waits y/n
+OBSERVE (catalog.ts)
+   → candidates + intent
+REASON (brain.ts)
+   → agent picks a product + states its justification
+VERIFY (verify.ts)
+   → diffs the authorization snapshot against the actual state at payment time
+CONTROL (breakpoint.ts)
+   → if they diverge: pause, print the diff, wait for approve/abort
+AUDIT (tracer.ts)
+   → every event above, in order, written to a JSON trace file
 ```
 
 Each layer is a separate module with one job. The `AgentBrain` interface
