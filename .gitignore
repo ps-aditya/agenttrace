@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+*.log
+
+# Trace runs are demo evidence, not source. Keep a couple of curated
+# example runs committed deliberately (see traces/README.md); don't let
+# every local run accumulate in the repo.
+/traces/*.json
+!/traces/.gitkeep
+!/traces/example-run.json

@@ -1,0 +1,119 @@
+{
+  "runId": "2026-08-27T17-58-48-017Z",
+  "startedAt": "2026-08-27T17:58:48.017Z",
+  "finishedAt": "2026-08-27T17:58:51.262Z",
+  "summary": {
+    "status": "captured",
+    "orderId": "order_TUsvF5kQw2Vh8l",
+    "note": "REAL: Razorpay test-mode order created successfully.",
+    "diff": {
+      "isStale": true,
+      "fields": [
+        {
+          "field": "shippingCost",
+          "authorized": 120,
+          "actual": 360,
+          "delta": 240
+        },
+        {
+          "field": "cartTotal",
+          "authorized": 4919,
+          "actual": 5159,
+          "delta": 240
+        }
+      ],
+      "totalDelta": 240
+    }
+  },
+  "events": [
+    {
+      "seq": 0,
+      "timestamp": "2026-08-27T17:58:48.020Z",
+      "type": "intent",
+      "data": {
+        "intent": "Buy me running shoes, budget ₹5000, prioritize quality over price.",
+        "maxBudget": 5000
+      }
+    },
+    {
+      "seq": 1,
+      "timestamp": "2026-08-27T17:58:48.020Z",
+      "type": "candidates",
+      "data": {
+        "candidates": [
+          { "id": "sku-201", "name": "Trailrunner X2", "price": 4799 },
+          { "id": "sku-202", "name": "UrbanFlex Pro", "price": 4299 },
+          { "id": "sku-203", "name": "SprintCore Lite", "price": 3599 }
+        ]
+      }
+    },
+    {
+      "seq": 2,
+      "timestamp": "2026-08-27T17:58:48.021Z",
+      "type": "decision",
+      "data": {
+        "chosenId": "sku-201",
+        "reasoning": "Selected \"Trailrunner X2\" (₹4799) as the highest-value option within the ₹5000 budget, given intent: \"Buy me running shoes, budget ₹5000, prioritize quality over price.\"."
+      }
+    },
+    {
+      "seq": 3,
+      "timestamp": "2026-08-27T17:58:48.021Z",
+      "type": "authorization",
+      "data": {
+        "intent": "Buy me running shoes, budget ₹5000, prioritize quality over price.",
+        "maxBudget": 5000,
+        "itemId": "sku-201",
+        "itemPrice": 4799,
+        "shippingCost": 120,
+        "cartTotal": 4919,
+        "currency": "INR",
+        "authorizationScope": "single_purchase",
+        "decidedAt": "2026-08-27T17:58:48.021Z"
+      }
+    },
+    {
+      "seq": 4,
+      "timestamp": "2026-08-27T17:58:48.022Z",
+      "type": "external_change",
+      "data": { "field": "shippingCost", "from": 120, "to": 360 }
+    },
+    {
+      "seq": 5,
+      "timestamp": "2026-08-27T17:58:48.022Z",
+      "type": "breakpoint_triggered",
+      "data": {
+        "diff": {
+          "isStale": true,
+          "fields": [
+            { "field": "shippingCost", "authorized": 120, "actual": 360, "delta": 240 },
+            { "field": "cartTotal", "authorized": 4919, "actual": 5159, "delta": 240 }
+          ],
+          "totalDelta": 240
+        }
+      }
+    },
+    {
+      "seq": 6,
+      "timestamp": "2026-08-27T17:58:48.024Z",
+      "type": "breakpoint_decision",
+      "data": { "approved": true, "source": "auto" }
+    },
+    {
+      "seq": 7,
+      "timestamp": "2026-08-27T17:58:48.024Z",
+      "type": "payment_attempt",
+      "data": { "amount": 5159 }
+    },
+    {
+      "seq": 8,
+      "timestamp": "2026-08-27T17:58:51.260Z",
+      "type": "payment_result",
+      "data": {
+        "status": "captured",
+        "orderId": "order_TUsvF5kQw2Vh8l",
+        "note": "REAL: Razorpay test-mode order created successfully."
+      }
+    }
+  ]
+}

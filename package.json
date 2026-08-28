@@ -1,0 +1,22 @@
+{
+  "name": "agenttrace",
+  "version": "0.1.0",
+  "description": "A debugger for autonomous commerce agents: observe, reason, verify, control, and audit agentic payment decisions.",
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc",
+    "demo": "ts-node src/index.ts",
+    "demo:auto": "ts-node src/index.ts --auto-approve"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "razorpay": "^2.9.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  },
+  "license": "MIT"
+}
