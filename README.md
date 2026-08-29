@@ -48,6 +48,67 @@ This is a deliberately simple, honest rule — not similarity-scored ML
 matching — because the point is a bounded, explainable recovery, not a
 "smart" one.
 
+**A correctness detail that matters:** "approve as-is" is only ever offered
+when the new total still fits the buyer's *stated budget ceiling* (₹5000 in
+the example above), not merely the specific total the agent happened to
+commit to at decision time. A budget of ₹5000 authorizes anything under
+₹5000 — if a drift pushes the total *over* that ceiling, approve-as-is is
+withheld entirely, even in auto-approve mode. This is enforced by
+`budgetBreached` in [`src/types.ts`](./src/types.ts) and checked in
+[`src/breakpoint.ts`](./src/breakpoint.ts) — the system cannot silently pay
+more than the buyer ever agreed to.
+
+### Why the recovery search is O(n), not O(n log n)
+
+Stated formally: given `n` candidates, an excluded item, a budget `B`, and a
+shipping cost `S`, find the candidate maximizing `price + S` subject to
+`price + S ≤ B`, or determine none exists. A naive implementation filters,
+sorts descending, and takes the first result — O(n log n) time, O(n) extra
+space. But the problem only ever asks for a single best element under a
+constraint; a full ordering is never needed. `findRecoveryOption()` instead
+does a single linear scan tracking the best-so-far — O(n) time, O(1) extra
+space. You must inspect every candidate at least once to know whether a
+better one exists (an unavoidable Ω(n) lower bound for this problem shape),
+so O(n) is not just faster in practice — it's asymptotically optimal.
+
+## Evidence at scale, not one cherry-picked run
+
+A single successful run proves the happy path works. It doesn't prove the
+*bound* is real — for that, you need to see the system refuse to overpay
+and refuse to invent a recovery that doesn't exist. `src/batch.ts` runs 8
+deliberately varied synthetic transactions against the real Razorpay
+test-mode API in one pass — spanning both failure classes, a budget-breach
+case, and critically, **one scenario with no viable substitute at all**,
+which correctly forces a plain abort in full auto-approve mode. That's the
+proof the bound isn't just a label: when recovery genuinely isn't possible,
+the system doesn't manufacture one.
+
+Run it: `npm run batch`. It prints a live per-transaction status, then
+an aggregate summary — total captured, total at-risk from failures, total
+preserved by recovery — and writes the full breakdown (every transaction,
+every trace file, every real order ID) to a timestamped JSON report.
+
+**Real committed numbers** ([`traces/example-batch-summary.json`](./traces/example-batch-summary.json)),
+from an actual run against Razorpay's live test-mode API — 8 real orders
+attempted, 7 real order IDs returned:
+
+| | |
+|---|---|
+| Transactions run | 8 |
+| Captured | 7 |
+| Aborted (no viable recovery) | 1 |
+| Transactions that hit a failure | 7 / 8 |
+| Recovered via substitute | 6 / 7 |
+| Total revenue captured | ₹29,553 |
+| Revenue that was at risk | ₹32,233 |
+| **Revenue preserved by recovery** | **₹25,834** |
+
+That one abort (`run-03-drift-no-recovery-forces-abort`) is the important
+row, not a footnote: it's the system correctly refusing to invent a
+recovery when none exists, even with `--auto-approve` set. If every run
+captured, that would be weaker evidence, not stronger — it would mean the
+bound was never actually tested.
+
 ## What it actually does (verified, not claimed)
 
 1. **Observe** — a scripted agent picks a product against an intent + budget
@@ -89,8 +150,33 @@ Reproduce either yourself:
 ```
 npm run demo:auto          # cost-drift scenario, auto-resolves
 npm run demo:oos:auto      # out-of-stock scenario, auto-resolves
+npm run batch              # 8 varied transactions, one real Razorpay call each
 ```
 Each run writes its own timestamped trace to `traces/`.
+
+### A real LLM making the decision, not just a script
+
+The default brain (`RuleBasedBrain`) is deterministic on purpose — it makes
+the demo reproducible and free to run for anyone cloning the repo. But the
+decision layer is a swappable interface
+([`src/brain.ts`](./src/brain.ts)), and `GeminiBrain` wires in Google's
+Gemini API for genuine LLM-driven product selection instead of a scripted
+rule. Gemini's free tier requires no credit card, which is why it's the
+one wired in rather than a paid API:
+```
+npm run demo:gemini
+```
+Requires a free key from [aistudio.google.com/apikey](https://aistudio.google.com/apikey)
+in `.env` as `GEMINI_API_KEY`.
+
+**Real committed evidence** ([`traces/example-run-gemini.json`](./traces/example-run-gemini.json)):
+Gemini, given the same candidates and budget as every other example in this
+README, produced its own reasoning in its own words — *"Trailrunner X2 at
+₹4799 is within the ₹5000 budget and, as the highest-priced candidate,
+aligns best with the instruction to prioritize quality over price"* — then
+hit the same recovery/breakpoint/audit pipeline as any other decision
+source, and completed a real Razorpay order (`order_TVafwjSDaVZIwv`). The
+brain is swappable; the safety and recovery guarantees around it are not.
 
 ## Architecture
 
@@ -147,8 +233,9 @@ end-to-end against a live payment gateway.
 ### Explicitly out of scope for this submission
 - No browser extension, VS Code extension, or published npm package —
   roadmap only (see below), not built
-- No arbitrary failure-mode detection — only the one scripted case
-  (shipping cost drift)
+- Only two scripted failure classes (cost drift, unavailability) — not an
+  open-ended fraud/anomaly detector; the batch harness varies budgets and
+  scenario types, not arbitrary new failure categories
 - No persistence beyond flat JSON trace files, no database, no auth system
 - No production/live-mode payments — test mode only, by design
 
@@ -156,8 +243,9 @@ end-to-end against a live payment gateway.
 - Browser extension surfacing breakpoints inline on checkout pages
 - VS Code extension for stepping through agent traces like a real debugger
 - `npx agenttrace` distributable package
-- Additional failure modes (currency mismatch, quantity drift, expired
-  authorization windows)
+- Additional failure classes (currency mismatch, quantity drift, expired
+  authorization windows) — the recovery engine's interface doesn't change
+  to add these, only `catalog.ts`'s scripted triggers would
 
 ## Setup
 
@@ -175,12 +263,15 @@ npm run demo:auto       # or: npm run demo (interactive y/n prompt)
 src/
   types.ts       domain types: Product, AuthorizedState, ExecutionState, TraceEvent, RecoveryOption
   catalog.ts     synthetic product catalog + scripted shipping drift + scripted stock failure
-  brain.ts       AgentBrain interface; RuleBasedBrain (default) + ClaudeBrain (extension point)
+  brain.ts       AgentBrain interface; RuleBasedBrain (default), ClaudeBrain + GeminiBrain (real LLM options)
   verify.ts      diffAuthorization() — the core staleness check
-  recovery.ts    findRecoveryOption() — searches for an in-budget substitute
-  breakpoint.ts  promptResolution() — the control layer, 3-way choice
+  recovery.ts    findRecoveryOption() — O(n) single-pass search for an in-budget substitute
+  breakpoint.ts  promptResolution() — the control layer, budget-breach-aware 3-way choice
   payment.ts     attemptPayment() — real Razorpay call, mock fallback if no keys
   tracer.ts      Tracer — records + persists the audit trail
+  engine.ts      runScenario() — the shared pipeline used by both index.ts and batch.ts
+  index.ts       single-run interactive/auto demo, --scenario=drift|oos, --brain=gemini
+  batch.ts       runs 8 varied scenarios against the real API, aggregates evidence
   index.ts       orchestrator wiring all layers together, --scenario=drift|oos
 traces/
   example-run.json   committed, real evidence (see above)
