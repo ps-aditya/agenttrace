@@ -1,0 +1,22 @@
+{
+  "generatedAt": "2026-08-29T12:46:13.388Z",
+  "totalTransactions": 8,
+  "captured": 7,
+  "aborted": 1,
+  "failedApiError": 0,
+  "transactionsWithFailure": 7,
+  "recoveredViaSubstitute": 6,
+  "totalRevenueCaptured": 29553,
+  "revenueAtRiskFromFailures": 32233,
+  "revenuePreservedByRecovery": 25834,
+  "perTransaction": [
+    { "label": "run-01-drift-recovery-optional", "status": "captured", "failureOccurred": true, "recovered": true, "originalAuthorizedTotal": 4919, "finalTotal": 4659, "orderId": "order_TVafEaiiDNgd8s" },
+    { "label": "run-02-drift-recovery-required-budget-breach", "status": "captured", "failureOccurred": true, "recovered": true, "originalAuthorizedTotal": 4419, "finalTotal": 3959, "orderId": "order_TVafEfcQ2zbRCe" },
+    { "label": "run-03-drift-no-recovery-forces-abort", "status": "aborted", "failureOccurred": true, "recovered": false, "originalAuthorizedTotal": 3719, "finalTotal": null, "orderId": null },
+    { "label": "run-04-oos-recovery-comfortable", "status": "captured", "failureOccurred": true, "recovered": true, "originalAuthorizedTotal": 4919, "finalTotal": 4419, "orderId": "order_TVafEkmuX0dEN0" },
+    { "label": "run-05-oos-recovery-exact-budget-match", "status": "captured", "failureOccurred": true, "recovered": true, "originalAuthorizedTotal": 4919, "finalTotal": 4419, "orderId": "order_TVafEoV6Rfy5aM" },
+    { "label": "run-06-no-failure-cheaper-item-selected", "status": "captured", "failureOccurred": false, "recovered": false, "originalAuthorizedTotal": 3719, "finalTotal": 3719, "orderId": "order_TVafEsI1xuFiFn" },
+    { "label": "run-07-drift-recovery-optional-midtier", "status": "captured", "failureOccurred": true, "recovered": true, "originalAuthorizedTotal": 4419, "finalTotal": 3959, "orderId": "order_TVafEv01GMcmpP" },
+    { "label": "run-08-oos-recovery-comfortable-2", "status": "captured", "failureOccurred": true, "recovered": true, "originalAuthorizedTotal": 4919, "finalTotal": 4419, "orderId": "order_TVafExGqiWmxYv" }
+  ]
+}

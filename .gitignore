@@ -10,3 +10,5 @@ dist/
 !/traces/.gitkeep
 !/traces/example-run-drift.json
 !/traces/example-run-oos.json
+!/traces/example-run-gemini.json
+!/traces/example-batch-summary.json
