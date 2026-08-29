@@ -22,3 +22,12 @@ export const INITIAL_SHIPPING_COST = 120;
 export function simulateShippingCostAtExecutionTime(): number {
   return 360;
 }
+
+// Simulates a second, qualitatively different failure class: the chosen
+// item sells out between decision and payment. Unlike a cost drift, there
+// is no "approve as-is" path here -- the item genuinely cannot be bought.
+// Also scripted and deterministic for the same reason as above.
+// Returns true if still in stock, false if it sold out.
+export function simulateStockCheckAtExecutionTime(itemId: string): boolean {
+  return itemId !== "sku-201"; // sku-201 (Trailrunner X2) is scripted to sell out
+}

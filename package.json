@@ -7,7 +7,9 @@
   "scripts": {
     "build": "tsc",
     "demo": "ts-node src/index.ts",
-    "demo:auto": "ts-node src/index.ts --auto-approve"
+    "demo:auto": "ts-node src/index.ts --auto-approve",
+    "demo:oos": "ts-node src/index.ts --scenario=oos",
+    "demo:oos:auto": "ts-node src/index.ts --scenario=oos --auto-approve"
   },
   "dependencies": {
     "dotenv": "^16.4.5",

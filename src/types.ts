@@ -50,6 +50,37 @@ export interface StaleAuthorizationDiff {
   totalDelta: number;
 }
 
+// The class of failure determines what recovery paths are even possible.
+// "cost_drift": the originally chosen item is still purchasable, but the
+//   total has moved (shipping/price change). Recovery is optional here --
+//   a human can still approve the original item as-is if the drift is
+//   acceptable to them.
+// "unavailable": the originally chosen item cannot be purchased at all
+//   (out of stock at execution time). There is no "approve as-is" path --
+//   the only ways forward are a substitute or an abort.
+export type FailureClass = "cost_drift" | "unavailable";
+
+// A candidate substitute the recovery engine found: something that still
+// satisfies the original budget and is a reasonable stand-in for what the
+// agent originally wanted. This is deliberately simple -- same catalog,
+// cheapest constraint that fits -- not a similarity-scoring ML system.
+export interface RecoveryOption {
+  product: Product;
+  shippingCost: number;
+  cartTotal: number;
+  fitsOriginalBudget: boolean;
+  reasoning: string;
+}
+
+export interface FailureContext {
+  failureClass: FailureClass;
+  diff: StaleAuthorizationDiff | null;
+  recovery: RecoveryOption | null;
+}
+
+export type BreakpointChoice = "approve_as_is" | "accept_substitute" | "abort";
+
+
 export type TraceEventType =
   | "intent"
   | "candidates"
@@ -57,6 +88,7 @@ export type TraceEventType =
   | "authorization"
   | "external_change"
   | "breakpoint_triggered"
+  | "recovery_search"
   | "breakpoint_decision"
   | "payment_attempt"
   | "payment_result";

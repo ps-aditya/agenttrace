@@ -8,4 +8,5 @@ dist/
 # every local run accumulate in the repo.
 /traces/*.json
 !/traces/.gitkeep
-!/traces/example-run.json
+!/traces/example-run-drift.json
+!/traces/example-run-oos.json
