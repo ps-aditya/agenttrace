@@ -76,6 +76,14 @@ export interface FailureContext {
   failureClass: FailureClass;
   diff: StaleAuthorizationDiff | null;
   recovery: RecoveryOption | null;
+  // True when the actual total at execution time exceeds the buyer's
+  // stated maxBudget -- not just the specific total the agent happened to
+  // commit to at decision time. This is the real bound: "budget ₹5000"
+  // pre-authorizes anything under ₹5000, not only the exact figure the
+  // agent picked. approve_as_is must never be offered (let alone
+  // auto-selected) when this is true, or the system would silently pay
+  // more than the buyer ever agreed to.
+  budgetBreached: boolean;
 }
 
 export type BreakpointChoice = "approve_as_is" | "accept_substitute" | "abort";

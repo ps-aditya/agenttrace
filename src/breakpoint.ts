@@ -32,8 +32,11 @@ export async function promptResolution(
     }
     console.log(`  total delta: ${ctx.diff.totalDelta > 0 ? "+" : ""}₹${ctx.diff.totalDelta}`);
   }
+  if (ctx.budgetBreached) {
+    console.log(`  ⚠ this exceeds the buyer's authorized budget ceiling — approve-as-is is not offered`);
+  }
 
-  const canApproveAsIs = ctx.failureClass === "cost_drift";
+  const canApproveAsIs = ctx.failureClass === "cost_drift" && !ctx.budgetBreached;
   const options: { key: string; choice: BreakpointChoice; label: string }[] = [];
 
   if (canApproveAsIs) {
