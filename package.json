@@ -1,7 +1,7 @@
 {
   "name": "agenttrace",
   "version": "0.1.0",
-  "description": "A debugger for autonomous commerce agents: observe, reason, verify, control, and audit agentic payment decisions.",
+  "description": "A recovery-aware breakpoint system for autonomous commerce agents: observe, reason, verify, recover, control, and audit agentic payment decisions.",
   "main": "dist/index.js",
   "type": "commonjs",
   "scripts": {
@@ -9,7 +9,9 @@
     "demo": "ts-node src/index.ts",
     "demo:auto": "ts-node src/index.ts --auto-approve",
     "demo:oos": "ts-node src/index.ts --scenario=oos",
-    "demo:oos:auto": "ts-node src/index.ts --scenario=oos --auto-approve"
+    "demo:oos:auto": "ts-node src/index.ts --scenario=oos --auto-approve",
+    "demo:gemini": "ts-node src/index.ts --auto-approve --brain=gemini",
+    "batch": "ts-node src/batch.ts"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
