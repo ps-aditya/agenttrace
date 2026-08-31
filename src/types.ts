@@ -99,7 +99,9 @@ export type TraceEventType =
   | "recovery_search"
   | "breakpoint_decision"
   | "payment_attempt"
-  | "payment_result";
+  | "payment_result"
+  | "refund_issued"
+  | "webhook_received";
 
 export interface TraceEvent {
   seq: number;
