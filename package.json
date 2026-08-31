@@ -1,11 +1,15 @@
 {
-  "name": "@REPLACE_WITH_YOUR_NPM_USERNAME/agenttrace",
+  "name": "@psaditya/agenttrace",
   "version": "0.1.0",
   "description": "A recovery-aware breakpoint system for autonomous commerce agents: observe, reason, verify, recover, control, and audit agentic payment decisions.",
   "main": "dist/index.js",
   "bin": {
     "agenttrace": "./dist/index.js"
   },
+  "author": "Aditya Shaji",
+"engines": {
+  "node": ">=18"
+},
   "files": [
     "dist",
     "README.md",
