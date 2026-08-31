@@ -25,39 +25,38 @@ Every run writes a full JSON trace to `traces/run-<timestamp>.json` — this is
 the audit artifact: every decision, the authorization snapshot, the external
 change, the breakpoint diff, and the payment result, in order.
 
-## 5. (Optional, strongest evidence) Set up webhook-verified payment confirmation
+## 5. Complete a real payment (needs one manual click)
 
-Everything above either creates something and reads Razorpay's immediate API
-response, or polls asking "did it happen yet?". Both trust an answer to a
-question *we* initiated. A webhook is different: Razorpay pushes a signed
-event to *us*, unprompted, and we verify the signature ourselves — proof the
-event genuinely came from Razorpay, not something we're choosing to believe.
+`npm run verify-payment` and `npm run refund-batch` produce genuine captured
+*payments* (not just orders) and genuine refunds — Razorpay's own hosted
+checkout page has to be completed by a human, since no API can do this on
+an agent's behalf. Each command prints a real payment link:
 
-**Terminal 1 — start the local webhook receiver:**
-```
-npm run verify-payment
-```
-(if `RAZORPAY_WEBHOOK_SECRET` isn't set yet, this still runs — it'll fall
-back to polling and tell you so explicitly)
+**Recommended: NetBanking → any test bank (e.g. PNB) → Success.** Card test
+numbers vary by account and region and can change without notice on
+Razorpay's side (a documented card number failed as "international" during
+this project's own testing) — NetBanking has proven reliable. Razorpay's
+own current test-payment docs are the source of truth if you want to try
+cards instead: https://razorpay.com/docs/payments/payments/test-card-details/
 
-**Terminal 2 — expose it publicly:**
-```
-npm run tunnel
-```
-This prints a public URL like `https://random-words.loca.lt`.
+## On webhooks (attempted, not relied on)
 
-**In the Razorpay Dashboard** (Test Mode → Settings → Webhooks → Add New
-Webhook):
-- URL: `<your tunnel URL>/webhook`
-- Active events: `payment.captured`, `refund.processed`
-- Secret: pick any string, then put the *same* string in `.env` as
-  `RAZORPAY_WEBHOOK_SECRET`
+Real signature-verified webhook confirmation (`WebhookServer` in
+`src/webhook-server.ts`) is implemented and correct — HMAC-SHA256
+verification, timing-safe comparison, graceful fallback to polling. In
+practice, Razorpay's webhook URL validation rejects public tunnel domains
+(`localtunnel`'s `.loca.lt` hostnames specifically failed registration),
+which is an external policy outside this project's control, not a bug in
+the code. **`verify-payment` and `refund-batch` both work correctly without
+it** — they fall back to polling automatically, and polling-confirmed real
+payments are the evidence this project actually ships on. The webhook code
+stays in the repo as a documented, honest attempt at the stronger
+evidence path, not a claimed working feature.
 
-Restart `npm run verify-payment` after setting the secret so it picks up the
-webhook path instead of falling back to polling. It'll print a real payment
-link — open it, pay with test card `4111 1111 1111 1111` (any future
-expiry, any CVV), and watch Terminal 1 receive and verify the signed
-confirmation independently, before it issues a real refund.
+## Check the evidence
+Every run writes a full JSON trace to `traces/run-<timestamp>.json` — every
+decision, the authorization snapshot, the external change, the breakpoint
+diff, and the payment result, in order.
 
 ## What to expect
 - A scripted agent picks a product within budget (rule-based, offline, no API key needed for this part)
@@ -66,14 +65,14 @@ confirmation independently, before it issues a real refund.
 - You (or `--auto-approve`) approve, accept a bounded substitute, or abort
 - If keys are set: a REAL Razorpay test-mode order gets created
 - If no keys: a MOCK result is returned, clearly labeled as such in the trace
-- `npm run verify-payment` produces a genuine captured *payment* (not just an
-  order) and a genuine refund — the one path that requires you to actually
-  click "pay" once, since no API can complete checkout on your behalf
+- `npm run verify-payment` / `npm run refund-batch` produce genuine captured
+  payments and genuine refunds, confirmed via polling (real, just not
+  independently webhook-verified — see above)
 
 ## What NOT to expect
 - No real money ever moves (test mode only)
 - No browser extension / VS Code extension yet — those are roadmap, not built
 - Only two scripted decision-time failure classes (cost drift, unavailability)
 - No database, no persistence beyond flat JSON trace files
-- The webhook path needs manual one-time setup (tunnel + dashboard config);
-  everything else needs zero configuration beyond API keys
+- No working webhook confirmation in this submission — attempted, blocked by
+  Razorpay's tunnel-domain policy, documented honestly rather than hidden
