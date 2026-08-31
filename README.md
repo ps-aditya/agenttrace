@@ -9,7 +9,7 @@ Built for Razorpay Buildathon, Track 01.
 ## Try it now
 
 ```
-npx @REPLACE_WITH_YOUR_NPM_USERNAME/agenttrace
+npx @psaditya/agenttrace
 ```
 No clone, no keys, no config. Runs the full recovery pipeline immediately
 using a mock payment fallback so the decision logic is visible in seconds.
