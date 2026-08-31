@@ -1,0 +1,916 @@
+{
+  "generatedAt": "2026-08-31T09:49:01.121Z",
+  "kind": "scale-batch-randomized",
+  "totalTransactions": 100,
+  "ordersCreated": 28,
+  "aborted": 1,
+  "crashed": 71,
+  "transactionsWithFailure": 78,
+  "recoveredViaSubstitute": 19,
+  "totalOrderValue": 120812,
+  "valueAtRisk": 365182,
+  "valuePreservedByRecovery": 82881,
+  "durationMs": 7187,
+  "perTransaction": [
+    {
+      "label": "scale-001-drift-budget4759",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TWKiE8Yl5LPOKv"
+    },
+    {
+      "label": "scale-002-drift-budget4674",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TWKiEHHThytPkK"
+    },
+    {
+      "label": "scale-003-oos-budget4730",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TWKiEMlVzcKxYW"
+    },
+    {
+      "label": "scale-004-oos-budget4362",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TWKiET8N9LXgVU"
+    },
+    {
+      "label": "scale-005-drift-budget5215",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TWKiEXMQXjgyTb"
+    },
+    {
+      "label": "scale-006-drift-budget3980",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TWKiEeSku1ar2H"
+    },
+    {
+      "label": "scale-007-drift-budget5182",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TWKiEkirJis8zS"
+    },
+    {
+      "label": "scale-008-oos-budget5531",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-009-drift-budget5021",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-010-oos-budget5288",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-011-drift-budget4873",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-012-oos-budget4687",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-013-drift-budget4904",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-014-oos-budget5396",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-015-oos-budget5232",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-016-drift-budget4377",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-017-drift-budget5464",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-018-oos-budget5062",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-019-oos-budget4288",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-020-oos-budget5258",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-021-oos-budget5413",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-022-oos-budget5344",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-023-oos-budget5466",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-024-oos-budget4086",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-025-oos-budget5135",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TWKiFEULV070EJ"
+    },
+    {
+      "label": "scale-026-oos-budget5295",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TWKiFH33njnJZM"
+    },
+    {
+      "label": "scale-027-drift-budget4095",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TWKiFKoBf3SRea"
+    },
+    {
+      "label": "scale-028-drift-budget5082",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TWKiFNnzIEmopA"
+    },
+    {
+      "label": "scale-029-oos-budget5321",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TWKiFRAvLOlC9w"
+    },
+    {
+      "label": "scale-030-drift-budget4385",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TWKiFUujw567oy"
+    },
+    {
+      "label": "scale-031-drift-budget5446",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TWKiFXQR3VMJUV"
+    },
+    {
+      "label": "scale-032-oos-budget5225",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-033-drift-budget5153",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-034-oos-budget4621",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-035-oos-budget4603",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-036-oos-budget5078",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-037-oos-budget5432",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-038-drift-budget5121",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-039-oos-budget4277",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-040-oos-budget4388",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-041-drift-budget4805",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-042-drift-budget5532",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-043-oos-budget5413",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-044-drift-budget4380",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-045-drift-budget5479",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-046-drift-budget4233",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-047-drift-budget4326",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-048-drift-budget4353",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-049-drift-budget4812",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-050-oos-budget4794",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-051-drift-budget5262",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-052-oos-budget3927",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-053-drift-budget5485",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-054-oos-budget4587",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-055-oos-budget4400",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-056-drift-budget5225",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-057-drift-budget4925",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-058-drift-budget5225",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TWKiGMCYV0AdJX"
+    },
+    {
+      "label": "scale-059-oos-budget5586",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TWKiGPECKGVCll"
+    },
+    {
+      "label": "scale-060-drift-budget5083",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TWKiGUCsOKlhIc"
+    },
+    {
+      "label": "scale-061-oos-budget5009",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TWKiGXlUay6un5"
+    },
+    {
+      "label": "scale-062-drift-budget5317",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TWKiGbNa0zNcoS"
+    },
+    {
+      "label": "scale-063-oos-budget5458",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TWKiGdroByAF0W"
+    },
+    {
+      "label": "scale-064-oos-budget4418",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TWKiGj5GDDMm04"
+    },
+    {
+      "label": "scale-065-drift-budget4226",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-066-oos-budget5297",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-067-drift-budget4306",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-068-drift-budget4115",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-069-oos-budget5455",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-070-oos-budget5161",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-071-oos-budget5526",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-072-oos-budget4020",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-073-oos-budget4903",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-074-oos-budget4157",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-075-oos-budget5102",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-076-oos-budget4387",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-077-drift-budget4733",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-078-oos-budget3914",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-079-drift-budget4265",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-080-drift-budget5469",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-081-drift-budget5064",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-082-drift-budget4131",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-083-drift-budget3905",
+      "status": "aborted",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-084-oos-budget5519",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-085-oos-budget4682",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-086-oos-budget5143",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-087-oos-budget4894",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-088-drift-budget4548",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TWKiHVFUFrFV9F"
+    },
+    {
+      "label": "scale-089-oos-budget4342",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TWKiHZGQIgVlZ4"
+    },
+    {
+      "label": "scale-090-drift-budget4127",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TWKiHblMHwvZda"
+    },
+    {
+      "label": "scale-091-oos-budget4632",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TWKiHiL7YrMJWF"
+    },
+    {
+      "label": "scale-092-drift-budget4434",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TWKiHkmnlVXtKp"
+    },
+    {
+      "label": "scale-093-drift-budget4114",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TWKiHoVQmYtfda"
+    },
+    {
+      "label": "scale-094-drift-budget4368",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TWKiHsyF0dTjG7"
+    },
+    {
+      "label": "scale-095-oos-budget4255",
+      "status": "failed",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-096-oos-budget5581",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-097-oos-budget5493",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-098-oos-budget5085",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-099-oos-budget5534",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": null,
+      "orderId": null
+    },
+    {
+      "label": "scale-100-drift-budget4701",
+      "status": "failed",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": null,
+      "orderId": null
+    }
+  ]
+}

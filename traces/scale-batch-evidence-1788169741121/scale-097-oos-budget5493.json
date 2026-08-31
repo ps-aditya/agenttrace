@@ -1,0 +1,153 @@
+{
+  "runId": "2026-08-31T09-49-01-017Z",
+  "startedAt": "2026-08-31T09:49:01.017Z",
+  "finishedAt": "2026-08-31T09:49:01.041Z",
+  "summary": {
+    "status": "failed",
+    "note": "Razorpay test-mode order creation failed.",
+    "substituted": true,
+    "finalItem": "UrbanFlex Pro",
+    "finalTotal": 4419
+  },
+  "events": [
+    {
+      "seq": 0,
+      "timestamp": "2026-08-31T09:49:01.017Z",
+      "type": "intent",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 5493
+      }
+    },
+    {
+      "seq": 1,
+      "timestamp": "2026-08-31T09:49:01.017Z",
+      "type": "candidates",
+      "data": {
+        "candidates": [
+          {
+            "id": "sku-201",
+            "name": "Trailrunner X2",
+            "price": 4799,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-202",
+            "name": "UrbanFlex Pro",
+            "price": 4299,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-203",
+            "name": "SprintCore Lite",
+            "price": 3599,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-301",
+            "name": "Everyday Ceramic Mug",
+            "price": 399,
+            "category": "kitchenware"
+          }
+        ]
+      }
+    },
+    {
+      "seq": 2,
+      "timestamp": "2026-08-31T09:49:01.017Z",
+      "type": "decision",
+      "data": {
+        "chosenId": "sku-201",
+        "reasoning": "Selected \"Trailrunner X2\" (₹4799) as the highest-value option within the ₹5493 budget, given intent: \"Buy running shoes for daily training.\"."
+      }
+    },
+    {
+      "seq": 3,
+      "timestamp": "2026-08-31T09:49:01.017Z",
+      "type": "authorization",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 5493,
+        "itemId": "sku-201",
+        "itemPrice": 4799,
+        "shippingCost": 120,
+        "cartTotal": 4919,
+        "currency": "INR",
+        "authorizationScope": "single_purchase",
+        "decidedAt": "2026-08-31T09:49:01.017Z"
+      }
+    },
+    {
+      "seq": 4,
+      "timestamp": "2026-08-31T09:49:01.017Z",
+      "type": "external_change",
+      "data": {
+        "field": "stock",
+        "itemId": "sku-201",
+        "inStock": false
+      }
+    },
+    {
+      "seq": 5,
+      "timestamp": "2026-08-31T09:49:01.017Z",
+      "type": "recovery_search",
+      "data": {
+        "found": true,
+        "recovery": {
+          "product": {
+            "id": "sku-202",
+            "name": "UrbanFlex Pro",
+            "price": 4299,
+            "category": "footwear"
+          },
+          "shippingCost": 120,
+          "cartTotal": 4419,
+          "fitsOriginalBudget": true,
+          "reasoning": "\"UrbanFlex Pro\" (₹4299 + ₹120 shipping = ₹4419) is the same category as the original item, fits within the original ₹5493 budget, and is the closest-value substitute available."
+        }
+      }
+    },
+    {
+      "seq": 6,
+      "timestamp": "2026-08-31T09:49:01.017Z",
+      "type": "breakpoint_triggered",
+      "data": {
+        "failureClass": "unavailable",
+        "diff": null,
+        "recoveryAvailable": true,
+        "budgetBreached": false
+      }
+    },
+    {
+      "seq": 7,
+      "timestamp": "2026-08-31T09:49:01.024Z",
+      "type": "breakpoint_decision",
+      "data": {
+        "choice": "accept_substitute",
+        "source": "auto"
+      }
+    },
+    {
+      "seq": 8,
+      "timestamp": "2026-08-31T09:49:01.024Z",
+      "type": "payment_attempt",
+      "data": {
+        "amount": 4419,
+        "itemId": "sku-202",
+        "substituted": true
+      }
+    },
+    {
+      "seq": 9,
+      "timestamp": "2026-08-31T09:49:01.040Z",
+      "type": "payment_result",
+      "data": {
+        "status": "failed",
+        "reason": "[HTTP 429] Too many requests",
+        "note": "Razorpay test-mode order creation failed.",
+        "substituted": true,
+        "itemId": "sku-202"
+      }
+    }
+  ]
+}

@@ -1,0 +1,170 @@
+{
+  "runId": "2026-08-31T09-48-58-291Z",
+  "startedAt": "2026-08-31T09:48:58.291Z",
+  "finishedAt": "2026-08-31T09:48:58.309Z",
+  "summary": {
+    "status": "failed",
+    "note": "Razorpay test-mode order creation failed.",
+    "substituted": true,
+    "finalItem": "UrbanFlex Pro",
+    "finalTotal": 4659
+  },
+  "events": [
+    {
+      "seq": 0,
+      "timestamp": "2026-08-31T09:48:58.291Z",
+      "type": "intent",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 5464
+      }
+    },
+    {
+      "seq": 1,
+      "timestamp": "2026-08-31T09:48:58.291Z",
+      "type": "candidates",
+      "data": {
+        "candidates": [
+          {
+            "id": "sku-201",
+            "name": "Trailrunner X2",
+            "price": 4799,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-202",
+            "name": "UrbanFlex Pro",
+            "price": 4299,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-203",
+            "name": "SprintCore Lite",
+            "price": 3599,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-301",
+            "name": "Everyday Ceramic Mug",
+            "price": 399,
+            "category": "kitchenware"
+          }
+        ]
+      }
+    },
+    {
+      "seq": 2,
+      "timestamp": "2026-08-31T09:48:58.291Z",
+      "type": "decision",
+      "data": {
+        "chosenId": "sku-201",
+        "reasoning": "Selected \"Trailrunner X2\" (₹4799) as the highest-value option within the ₹5464 budget, given intent: \"Buy running shoes for daily training.\"."
+      }
+    },
+    {
+      "seq": 3,
+      "timestamp": "2026-08-31T09:48:58.291Z",
+      "type": "authorization",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 5464,
+        "itemId": "sku-201",
+        "itemPrice": 4799,
+        "shippingCost": 120,
+        "cartTotal": 4919,
+        "currency": "INR",
+        "authorizationScope": "single_purchase",
+        "decidedAt": "2026-08-31T09:48:58.291Z"
+      }
+    },
+    {
+      "seq": 4,
+      "timestamp": "2026-08-31T09:48:58.291Z",
+      "type": "external_change",
+      "data": {
+        "field": "shippingCost",
+        "from": 120,
+        "to": 360
+      }
+    },
+    {
+      "seq": 5,
+      "timestamp": "2026-08-31T09:48:58.292Z",
+      "type": "recovery_search",
+      "data": {
+        "found": true,
+        "recovery": {
+          "product": {
+            "id": "sku-202",
+            "name": "UrbanFlex Pro",
+            "price": 4299,
+            "category": "footwear"
+          },
+          "shippingCost": 360,
+          "cartTotal": 4659,
+          "fitsOriginalBudget": true,
+          "reasoning": "\"UrbanFlex Pro\" (₹4299 + ₹360 shipping = ₹4659) is the same category as the original item, fits within the original ₹5464 budget, and is the closest-value substitute available."
+        }
+      }
+    },
+    {
+      "seq": 6,
+      "timestamp": "2026-08-31T09:48:58.292Z",
+      "type": "breakpoint_triggered",
+      "data": {
+        "failureClass": "cost_drift",
+        "diff": {
+          "isStale": true,
+          "fields": [
+            {
+              "field": "shippingCost",
+              "authorized": 120,
+              "actual": 360,
+              "delta": 240
+            },
+            {
+              "field": "cartTotal",
+              "authorized": 4919,
+              "actual": 5159,
+              "delta": 240
+            }
+          ],
+          "totalDelta": 240
+        },
+        "recoveryAvailable": true,
+        "budgetBreached": false
+      }
+    },
+    {
+      "seq": 7,
+      "timestamp": "2026-08-31T09:48:58.295Z",
+      "type": "breakpoint_decision",
+      "data": {
+        "choice": "accept_substitute",
+        "source": "auto"
+      }
+    },
+    {
+      "seq": 8,
+      "timestamp": "2026-08-31T09:48:58.295Z",
+      "type": "payment_attempt",
+      "data": {
+        "amount": 4659,
+        "itemId": "sku-202",
+        "substituted": true
+      }
+    },
+    {
+      "seq": 9,
+      "timestamp": "2026-08-31T09:48:58.309Z",
+      "type": "payment_result",
+      "data": {
+        "status": "failed",
+        "reason": "[HTTP 429] Too many requests",
+        "note": "Razorpay test-mode order creation failed.",
+        "substituted": true,
+        "itemId": "sku-202"
+      }
+    }
+  ]
+}

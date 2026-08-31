@@ -1,0 +1,153 @@
+{
+  "runId": "2026-08-31T09-48-59-174Z",
+  "startedAt": "2026-08-31T09:48:59.174Z",
+  "finishedAt": "2026-08-31T09:48:59.206Z",
+  "summary": {
+    "status": "failed",
+    "note": "Razorpay test-mode order creation failed.",
+    "approvedAsIs": true
+  },
+  "events": [
+    {
+      "seq": 0,
+      "timestamp": "2026-08-31T09:48:59.174Z",
+      "type": "intent",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 4233
+      }
+    },
+    {
+      "seq": 1,
+      "timestamp": "2026-08-31T09:48:59.174Z",
+      "type": "candidates",
+      "data": {
+        "candidates": [
+          {
+            "id": "sku-201",
+            "name": "Trailrunner X2",
+            "price": 4799,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-202",
+            "name": "UrbanFlex Pro",
+            "price": 4299,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-203",
+            "name": "SprintCore Lite",
+            "price": 3599,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-301",
+            "name": "Everyday Ceramic Mug",
+            "price": 399,
+            "category": "kitchenware"
+          }
+        ]
+      }
+    },
+    {
+      "seq": 2,
+      "timestamp": "2026-08-31T09:48:59.174Z",
+      "type": "decision",
+      "data": {
+        "chosenId": "sku-203",
+        "reasoning": "Selected \"SprintCore Lite\" (₹3599) as the highest-value option within the ₹4233 budget, given intent: \"Buy running shoes for daily training.\"."
+      }
+    },
+    {
+      "seq": 3,
+      "timestamp": "2026-08-31T09:48:59.174Z",
+      "type": "authorization",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 4233,
+        "itemId": "sku-203",
+        "itemPrice": 3599,
+        "shippingCost": 120,
+        "cartTotal": 3719,
+        "currency": "INR",
+        "authorizationScope": "single_purchase",
+        "decidedAt": "2026-08-31T09:48:59.174Z"
+      }
+    },
+    {
+      "seq": 4,
+      "timestamp": "2026-08-31T09:48:59.174Z",
+      "type": "external_change",
+      "data": {
+        "field": "shippingCost",
+        "from": 120,
+        "to": 360
+      }
+    },
+    {
+      "seq": 5,
+      "timestamp": "2026-08-31T09:48:59.174Z",
+      "type": "recovery_search",
+      "data": {
+        "found": false,
+        "recovery": null
+      }
+    },
+    {
+      "seq": 6,
+      "timestamp": "2026-08-31T09:48:59.174Z",
+      "type": "breakpoint_triggered",
+      "data": {
+        "failureClass": "cost_drift",
+        "diff": {
+          "isStale": true,
+          "fields": [
+            {
+              "field": "shippingCost",
+              "authorized": 120,
+              "actual": 360,
+              "delta": 240
+            },
+            {
+              "field": "cartTotal",
+              "authorized": 3719,
+              "actual": 3959,
+              "delta": 240
+            }
+          ],
+          "totalDelta": 240
+        },
+        "recoveryAvailable": false,
+        "budgetBreached": false
+      }
+    },
+    {
+      "seq": 7,
+      "timestamp": "2026-08-31T09:48:59.177Z",
+      "type": "breakpoint_decision",
+      "data": {
+        "choice": "approve_as_is",
+        "source": "auto"
+      }
+    },
+    {
+      "seq": 8,
+      "timestamp": "2026-08-31T09:48:59.177Z",
+      "type": "payment_attempt",
+      "data": {
+        "amount": 3959
+      }
+    },
+    {
+      "seq": 9,
+      "timestamp": "2026-08-31T09:48:59.205Z",
+      "type": "payment_result",
+      "data": {
+        "status": "failed",
+        "reason": "[HTTP 429] Too many requests",
+        "note": "Razorpay test-mode order creation failed."
+      }
+    }
+  ]
+}
