@@ -87,7 +87,7 @@ export async function runScenario(config: ScenarioConfig, brain: AgentBrain = ne
     tracer.record("external_change", { field: "stock", itemId: chosen.id, inStock });
 
     if (!inStock) {
-      const recovery = findRecoveryOption(candidates, chosen.id, config.maxBudget, INITIAL_SHIPPING_COST);
+      const recovery = findRecoveryOption(candidates, chosen.id, chosen.category, config.maxBudget, INITIAL_SHIPPING_COST);
       tracer.record("recovery_search", { found: !!recovery, recovery: recovery ?? null });
       failureCtx = { failureClass: "unavailable", diff: null, recovery, budgetBreached: false };
     } else {
@@ -108,7 +108,7 @@ export async function runScenario(config: ScenarioConfig, brain: AgentBrain = ne
 
     let recovery = null;
     if (diff.isStale) {
-      recovery = findRecoveryOption(candidates, chosen.id, config.maxBudget, actualShipping);
+      recovery = findRecoveryOption(candidates, chosen.id, chosen.category, config.maxBudget, actualShipping);
       tracer.record("recovery_search", { found: !!recovery, recovery });
     }
     const budgetBreached = execution.cartTotal > config.maxBudget;

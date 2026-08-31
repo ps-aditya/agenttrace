@@ -7,6 +7,7 @@ export interface Product {
   id: string;
   name: string;
   price: number; // in INR (rupees, not paise) for readability
+  category: string; // constrains recovery to genuinely comparable items, not just "fits the budget"
 }
 
 export interface AgentDecision {

@@ -3,11 +3,20 @@ import { Product } from "./types";
 // A deliberately small, fully synthetic catalog. This is NOT real merchant
 // data and is not meant to be. It exists purely to give the agent something
 // concrete to reason about.
+//
+// sku-301 exists specifically to prove a point: it's cheap enough to fit
+// almost any budget in this demo's scenarios, but it's a coffee mug, not
+// footwear. Without a category constraint, a budget-only recovery search
+// could "successfully" substitute a mug for running shoes -- technically
+// under budget, actually useless to the buyer. A recovery engine that
+// only checks price is a bad salesman: it'll sell anyone anything that
+// fits their wallet, whether or not it fits what they actually wanted.
 export function getCandidates(): Product[] {
   return [
-    { id: "sku-201", name: "Trailrunner X2", price: 4799 },
-    { id: "sku-202", name: "UrbanFlex Pro", price: 4299 },
-    { id: "sku-203", name: "SprintCore Lite", price: 3599 },
+    { id: "sku-201", name: "Trailrunner X2", price: 4799, category: "footwear" },
+    { id: "sku-202", name: "UrbanFlex Pro", price: 4299, category: "footwear" },
+    { id: "sku-203", name: "SprintCore Lite", price: 3599, category: "footwear" },
+    { id: "sku-301", name: "Everyday Ceramic Mug", price: 399, category: "kitchenware" },
   ];
 }
 

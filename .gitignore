@@ -12,3 +12,4 @@ dist/
 !/traces/example-run-oos.json
 !/traces/example-run-gemini.json
 !/traces/example-batch-summary.json
+agenttrace - Shortcut.lnk
