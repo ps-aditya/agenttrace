@@ -49,7 +49,7 @@ async function runScenario(scenario: RefundScenario) {
   tracer.record("payment_attempt", { paymentLinkId: link.id, amount: scenario.amount, scenario: scenario.label });
 
   console.log(`  Pay here: ${link.shortUrl}`);
-  console.log(`  (test card 4111 1111 1111 1111, any future expiry/CVV — waiting up to 5 min)`);
+  console.log(`  Easiest: choose NetBanking -> any test bank (e.g. PNB) -> Success.`);
 
   const paid = await waitForPayment(link.id, { timeoutMs: 5 * 60 * 1000 });
 

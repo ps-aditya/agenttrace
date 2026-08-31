@@ -96,9 +96,26 @@ async function main() {
   };
 
   const dir = path.join(__dirname, "..", "traces");
-  const summaryPath = path.join(dir, `batch-summary-${Date.now()}.json`);
+  const batchId = Date.now();
+
+  // Copy every individual per-transaction trace into a dedicated evidence
+  // folder alongside the summary. An aggregate number is a claim; these are
+  // the receipts backing it -- each one independently checkable against
+  // Razorpay's own Dashboard via its orderId, not just trusted because a
+  // summary said so.
+  const evidenceDir = path.join(dir, `batch-evidence-${batchId}`);
+  fs.mkdirSync(evidenceDir, { recursive: true });
+  for (const r of results) {
+    if (r.tracePath && fs.existsSync(r.tracePath)) {
+      const destName = `${r.label}.json`;
+      fs.copyFileSync(r.tracePath, path.join(evidenceDir, destName));
+    }
+  }
+
+  const summaryPath = path.join(evidenceDir, `summary.json`);
   fs.writeFileSync(summaryPath, JSON.stringify(summary, null, 2), "utf-8");
-  console.log(`\nFull batch summary written to: ${summaryPath}`);
+  console.log(`\nFull batch evidence (summary + all 8 individual traces) written to:`);
+  console.log(`  ${evidenceDir}`);
 }
 
 main().catch((err) => {

@@ -63,7 +63,8 @@ async function main() {
 
   console.log(`\nOpen this URL and pay with a Razorpay TEST card:`);
   console.log(`  ${link.shortUrl}`);
-  console.log(`  Test card: 4111 1111 1111 1111, any future expiry, any CVV\n`);
+  console.log(`  Easiest: choose NetBanking -> any test bank (e.g. PNB) -> Success.`);
+  console.log(`  (card test numbers vary by account/region -- NetBanking is the proven path)\n`);
 
   let paymentId: string | null = null;
   let amountPaid: number | null = null;

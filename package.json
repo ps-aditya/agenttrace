@@ -22,6 +22,7 @@
     "demo:oos:auto": "ts-node src/index.ts --scenario=oos --auto-approve",
     "demo:gemini": "ts-node src/index.ts --auto-approve --brain=gemini",
     "batch": "ts-node src/batch.ts",
+    "batch:scale": "ts-node src/batch-scale.ts",
     "verify-payment": "ts-node src/verify-payment.ts",
     "refund-batch": "ts-node src/refund-batch.ts",
     "tunnel": "npx localtunnel --port 3737"
