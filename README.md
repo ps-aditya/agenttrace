@@ -13,6 +13,19 @@ Built for Razorpay Buildathon, Track 01 ("grow the merchant's revenue, and
 make them sellable to AI buyers" / "every money action explainable, bounded
 and gated").
 
+> **A precision note on the evidence below, stated plainly:** every "order
+> created" claim in this README refers to a real Razorpay Orders API call
+> (`orders.create()`) — verifiable order IDs, real network round-trips. It
+> does **not** mean a payment was completed against that order. In
+> Razorpay's model, an order starts in `created` state and only becomes a
+> captured payment once a checkout is completed (a card or UPI ID entered,
+> even in test mode) — there's no pure server-side shortcut around that,
+> and there shouldn't be. Earlier language in this README used "captured"
+> loosely; that's been corrected below. The
+> [`traces/example-payment-verified.json`](./traces/example-payment-verified.json)
+> evidence (further down) goes one step further and completes a genuine
+> checkout, producing a real payment ID, not just an order ID.
+
 ---
 
 ## The problem, in one scenario
@@ -84,9 +97,12 @@ proof the bound isn't just a label: when recovery genuinely isn't possible,
 the system doesn't manufacture one.
 
 Run it: `npm run batch`. It prints a live per-transaction status, then
-an aggregate summary — total captured, total at-risk from failures, total
+an aggregate summary — total order value, total at-risk from failures, total
 preserved by recovery — and writes the full breakdown (every transaction,
-every trace file, every real order ID) to a timestamped JSON report.
+every trace file, every real order ID) to a timestamped JSON report. (The
+JSON field names still say `captured`/`revenueCaptured` for now — read
+those as "order created for this amount," per the terminology note above,
+not "payment completed.")
 
 **Real committed numbers** ([`traces/example-batch-summary.json`](./traces/example-batch-summary.json)),
 from an actual run against Razorpay's live test-mode API — 8 real orders
@@ -95,19 +111,19 @@ attempted, 7 real order IDs returned:
 | | |
 |---|---|
 | Transactions run | 8 |
-| Captured | 7 |
+| Orders created | 7 |
 | Aborted (no viable recovery) | 1 |
 | Transactions that hit a failure | 7 / 8 |
 | Recovered via substitute | 6 / 7 |
-| Total revenue captured | ₹29,553 |
-| Revenue that was at risk | ₹32,233 |
-| **Revenue preserved by recovery** | **₹25,834** |
+| Total order value | ₹29,553 |
+| Value that was at risk | ₹32,233 |
+| **Value preserved by recovery** | **₹25,834** |
 
 That one abort (`run-03-drift-no-recovery-forces-abort`) is the important
 row, not a footnote: it's the system correctly refusing to invent a
 recovery when none exists, even with `--auto-approve` set. If every run
-captured, that would be weaker evidence, not stronger — it would mean the
-bound was never actually tested.
+had created an order, that would be weaker evidence, not stronger — it
+would mean the bound was never actually tested.
 
 ## What it actually does (verified, not claimed)
 
@@ -136,12 +152,12 @@ verifiable directly in the Razorpay Dashboard under Test Mode → Orders:
 - [`traces/example-run-drift.json`](./traces/example-run-drift.json) —
   shipping cost drifts (₹120 → ₹360), the recovery engine finds "UrbanFlex
   Pro" fits the original ₹5000 budget, the substitute is accepted, and a
-  real order is captured: **`order_TVUqO5Fi8FmjZN`** (₹4659, ~3.7s real
+  real order is created: **`order_TVUqO5Fi8FmjZN`** (₹4659, ~3.7s real
   network round-trip: `07:04:33.473` → `07:04:37.160`).
 - [`traces/example-run-oos.json`](./traces/example-run-oos.json) — the
   chosen item sells out entirely, there is no "approve as-is" option, the
   same recovery engine finds the same substitute now at original shipping
-  cost, and a real order is captured: **`order_TVUqU5oUAzSQO9`** (₹4419).
+  cost, and a real order is created: **`order_TVUqU5oUAzSQO9`** (₹4419).
 
 Both orders exist in Razorpay's own system, not just in this repo's logs —
 that's the strongest evidence available that this isn't a simulation.
@@ -248,6 +264,16 @@ end-to-end against a live payment gateway.
   to add these, only `catalog.ts`'s scripted triggers would
 
 ## Setup
+
+**Try it in 10 seconds, no clone, no setup:**
+```
+npx @REPLACE_WITH_YOUR_NPM_USERNAME/agenttrace
+```
+(swap in the real scope once published — see the npm publish steps below)
+Runs the full pipeline immediately using the mock payment fallback (no
+Razorpay keys needed to see the recovery logic work). For real Razorpay
+test-mode orders, the batch harness, Gemini, or the live-payment-and-refund
+flow, clone the repo instead:
 
 See [`SETUP.md`](./SETUP.md).
 
