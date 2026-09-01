@@ -1,6 +1,6 @@
 {
   "name": "@psaditya/agenttrace",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A recovery-aware breakpoint system for autonomous commerce agents: observe, reason, verify, recover, control, and audit agentic payment decisions.",
   "main": "dist/index.js",
   "bin": {
