@@ -1,0 +1,107 @@
+{
+  "runId": "2026-09-01T09-46-55-714Z",
+  "startedAt": "2026-09-01T09:46:55.714Z",
+  "finishedAt": "2026-09-01T09:46:55.746Z",
+  "summary": {
+    "status": "captured",
+    "orderId": "order_TWjDCmMbSo4UZN",
+    "note": "REAL: Razorpay test-mode order created successfully."
+  },
+  "events": [
+    {
+      "seq": 0,
+      "timestamp": "2026-09-01T09:46:55.714Z",
+      "type": "intent",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 4318
+      }
+    },
+    {
+      "seq": 1,
+      "timestamp": "2026-09-01T09:46:55.714Z",
+      "type": "candidates",
+      "data": {
+        "candidates": [
+          {
+            "id": "sku-201",
+            "name": "Trailrunner X2",
+            "price": 4799,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-202",
+            "name": "UrbanFlex Pro",
+            "price": 4299,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-203",
+            "name": "SprintCore Lite",
+            "price": 3599,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-301",
+            "name": "Everyday Ceramic Mug",
+            "price": 399,
+            "category": "kitchenware"
+          }
+        ]
+      }
+    },
+    {
+      "seq": 2,
+      "timestamp": "2026-09-01T09:46:55.714Z",
+      "type": "decision",
+      "data": {
+        "chosenId": "sku-202",
+        "reasoning": "Selected \"UrbanFlex Pro\" (₹4299) as the highest-value option within the ₹4318 budget, given intent: \"Buy running shoes for daily training.\"."
+      }
+    },
+    {
+      "seq": 3,
+      "timestamp": "2026-09-01T09:46:55.714Z",
+      "type": "authorization",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 4318,
+        "itemId": "sku-202",
+        "itemPrice": 4299,
+        "shippingCost": 120,
+        "cartTotal": 4419,
+        "currency": "INR",
+        "authorizationScope": "single_purchase",
+        "decidedAt": "2026-09-01T09:46:55.714Z"
+      }
+    },
+    {
+      "seq": 4,
+      "timestamp": "2026-09-01T09:46:55.714Z",
+      "type": "external_change",
+      "data": {
+        "field": "stock",
+        "itemId": "sku-202",
+        "inStock": true
+      }
+    },
+    {
+      "seq": 5,
+      "timestamp": "2026-09-01T09:46:55.714Z",
+      "type": "payment_attempt",
+      "data": {
+        "amount": 4419
+      }
+    },
+    {
+      "seq": 6,
+      "timestamp": "2026-09-01T09:46:55.745Z",
+      "type": "payment_result",
+      "data": {
+        "status": "captured",
+        "orderId": "order_TWjDCmMbSo4UZN",
+        "note": "REAL: Razorpay test-mode order created successfully."
+      }
+    }
+  ]
+}

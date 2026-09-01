@@ -1,0 +1,171 @@
+{
+  "runId": "2026-09-01T09-46-37-821Z",
+  "startedAt": "2026-09-01T09:46:37.821Z",
+  "finishedAt": "2026-09-01T09:46:37.918Z",
+  "summary": {
+    "status": "captured",
+    "orderId": "order_TWjCtJtoH2jCo3",
+    "note": "REAL: Razorpay test-mode order created successfully.",
+    "substituted": true,
+    "finalItem": "SprintCore Lite",
+    "finalTotal": 3959
+  },
+  "events": [
+    {
+      "seq": 0,
+      "timestamp": "2026-09-01T09:46:37.821Z",
+      "type": "intent",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 4641
+      }
+    },
+    {
+      "seq": 1,
+      "timestamp": "2026-09-01T09:46:37.821Z",
+      "type": "candidates",
+      "data": {
+        "candidates": [
+          {
+            "id": "sku-201",
+            "name": "Trailrunner X2",
+            "price": 4799,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-202",
+            "name": "UrbanFlex Pro",
+            "price": 4299,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-203",
+            "name": "SprintCore Lite",
+            "price": 3599,
+            "category": "footwear"
+          },
+          {
+            "id": "sku-301",
+            "name": "Everyday Ceramic Mug",
+            "price": 399,
+            "category": "kitchenware"
+          }
+        ]
+      }
+    },
+    {
+      "seq": 2,
+      "timestamp": "2026-09-01T09:46:37.821Z",
+      "type": "decision",
+      "data": {
+        "chosenId": "sku-202",
+        "reasoning": "Selected \"UrbanFlex Pro\" (₹4299) as the highest-value option within the ₹4641 budget, given intent: \"Buy running shoes for daily training.\"."
+      }
+    },
+    {
+      "seq": 3,
+      "timestamp": "2026-09-01T09:46:37.821Z",
+      "type": "authorization",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 4641,
+        "itemId": "sku-202",
+        "itemPrice": 4299,
+        "shippingCost": 120,
+        "cartTotal": 4419,
+        "currency": "INR",
+        "authorizationScope": "single_purchase",
+        "decidedAt": "2026-09-01T09:46:37.821Z"
+      }
+    },
+    {
+      "seq": 4,
+      "timestamp": "2026-09-01T09:46:37.821Z",
+      "type": "external_change",
+      "data": {
+        "field": "shippingCost",
+        "from": 120,
+        "to": 360
+      }
+    },
+    {
+      "seq": 5,
+      "timestamp": "2026-09-01T09:46:37.821Z",
+      "type": "recovery_search",
+      "data": {
+        "found": true,
+        "recovery": {
+          "product": {
+            "id": "sku-203",
+            "name": "SprintCore Lite",
+            "price": 3599,
+            "category": "footwear"
+          },
+          "shippingCost": 360,
+          "cartTotal": 3959,
+          "fitsOriginalBudget": true,
+          "reasoning": "\"SprintCore Lite\" (₹3599 + ₹360 shipping = ₹3959) is the same category as the original item, fits within the original ₹4641 budget, and is the closest-value substitute available."
+        }
+      }
+    },
+    {
+      "seq": 6,
+      "timestamp": "2026-09-01T09:46:37.821Z",
+      "type": "breakpoint_triggered",
+      "data": {
+        "failureClass": "cost_drift",
+        "diff": {
+          "isStale": true,
+          "fields": [
+            {
+              "field": "shippingCost",
+              "authorized": 120,
+              "actual": 360,
+              "delta": 240
+            },
+            {
+              "field": "cartTotal",
+              "authorized": 4419,
+              "actual": 4659,
+              "delta": 240
+            }
+          ],
+          "totalDelta": 240
+        },
+        "recoveryAvailable": true,
+        "budgetBreached": true
+      }
+    },
+    {
+      "seq": 7,
+      "timestamp": "2026-09-01T09:46:37.823Z",
+      "type": "breakpoint_decision",
+      "data": {
+        "choice": "accept_substitute",
+        "source": "auto"
+      }
+    },
+    {
+      "seq": 8,
+      "timestamp": "2026-09-01T09:46:37.823Z",
+      "type": "payment_attempt",
+      "data": {
+        "amount": 3959,
+        "itemId": "sku-203",
+        "substituted": true
+      }
+    },
+    {
+      "seq": 9,
+      "timestamp": "2026-09-01T09:46:37.917Z",
+      "type": "payment_result",
+      "data": {
+        "status": "captured",
+        "orderId": "order_TWjCtJtoH2jCo3",
+        "note": "REAL: Razorpay test-mode order created successfully.",
+        "substituted": true,
+        "itemId": "sku-203"
+      }
+    }
+  ]
+}

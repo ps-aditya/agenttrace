@@ -18,8 +18,13 @@ import { runScenario, ScenarioConfig } from "./engine";
 // unfixed limitation this batch isn't testing and shouldn't accidentally
 // trigger.
 const COUNT = Number(process.argv.find((a) => a.startsWith("--count="))?.split("=")[1]) || 100;
+const DELAY_MS = Number(process.argv.find((a) => a.startsWith("--delay="))?.split("=")[1]) || 300;
 const MIN_BUDGET = 3900; // stays above the footwear floor
 const MAX_BUDGET = 5600;
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 function randomScenario(index: number): Omit<ScenarioConfig, "autoApprove" | "onNarration"> {
   const budget = Math.round(MIN_BUDGET + Math.random() * (MAX_BUDGET - MIN_BUDGET));
@@ -39,7 +44,9 @@ async function main() {
   console.log(`Budgets drawn uniformly from ₹${MIN_BUDGET}–₹${MAX_BUDGET}, scenario type 50/50 drift/oos.`);
   console.log(`This is real randomness (Math.random()), not seeded -- re-running produces different`);
   console.log(`exact numbers each time. That's an honest property, not a flaw: it's evidence this`);
-  console.log(`isn't a hardcoded, memorized sequence.\n`);
+  console.log(`isn't a hardcoded, memorized sequence.`);
+  console.log(`Pacing each real API call ${DELAY_MS}ms apart (--delay=N to change) -- an earlier run`);
+  console.log(`with zero pacing tripped what looked like Razorpay's own rate limiting.\n`);
 
   const results = [];
   const startedAt = Date.now();
@@ -51,7 +58,8 @@ async function main() {
       const result = await runScenario({ ...scenario, autoApprove: true });
       const statusLabel = String(result.outcome.status).toUpperCase();
       const recoveryTag = result.recovered ? " (recovered)" : "";
-      console.log(`${statusLabel}${recoveryTag}`);
+      const reasonTag = statusLabel === "FAILED" ? ` [${(result.outcome as any).reason ?? "no reason captured"}]` : "";
+      console.log(`${statusLabel}${recoveryTag}${reasonTag}`);
       results.push(result);
     } catch (err: any) {
       console.log(`CRASHED: ${err.message}`);
@@ -65,6 +73,7 @@ async function main() {
         tracePath: null,
       });
     }
+    if (i < COUNT - 1) await sleep(DELAY_MS);
   }
 
   const durationMs = Date.now() - startedAt;
@@ -117,6 +126,7 @@ async function main() {
       originalAuthorizedTotal: r.originalAuthorizedTotal,
       finalTotal: r.finalTotal,
       orderId: (r.outcome as any).orderId ?? null,
+      apiFailureReason: (r.outcome as any).reason ?? null, // the actual Razorpay error, not just "failed"
     })),
   };
 

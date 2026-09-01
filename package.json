@@ -1,14 +1,10 @@
 {
-  "name": "@psaditya/agenttrace",
-  "version": "1.0.0",
+  "name": "@REPLACE_WITH_YOUR_NPM_USERNAME/agenttrace",
+  "version": "0.1.0",
   "description": "A recovery-aware breakpoint system for autonomous commerce agents: observe, reason, verify, recover, control, and audit agentic payment decisions.",
   "main": "dist/index.js",
   "bin": {
-    "agenttrace": "dist/index.js"
-  },
-  "author": "Aditya Shaji",
-  "engines": {
-    "node": ">=18"
+    "agenttrace": "./dist/index.js"
   },
   "files": [
     "dist",
@@ -36,13 +32,7 @@
     "url": "git+https://github.com/ps-aditya/agenttrace.git"
   },
   "homepage": "https://github.com/ps-aditya/agenttrace#readme",
-  "keywords": [
-    "razorpay",
-    "ai-agent",
-    "agentic-commerce",
-    "payments",
-    "audit-trail"
-  ],
+  "keywords": ["razorpay", "ai-agent", "agentic-commerce", "payments", "audit-trail"],
   "dependencies": {
     "dotenv": "^16.4.5",
     "razorpay": "^2.9.4"

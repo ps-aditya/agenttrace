@@ -1,8 +1,8 @@
 # AgentTrace
 
-**When an AI agent's payment breaks mid-flow, most systems can only let it through or kill it. AgentTrace looks for a bounded way to save the sale first.**
+**When an AI agent's payment breaks mid-flow, most systems can only let it through or kill it. I built a third option: look for a bounded way to save the sale first.**
 
-Built for Razorpay Buildathon, Track 01.
+Built for Razorpay Buildathon, Track 01 (AI Growth & Agentic Commerce).
 
 ---
 
@@ -11,107 +11,100 @@ Built for Razorpay Buildathon, Track 01.
 ```
 npx @psaditya/agenttrace
 ```
-No clone, no keys, no config. Runs the full recovery pipeline immediately
-using a mock payment fallback so the decision logic is visible in seconds.
-For real Razorpay orders, batch evidence, or the payment+refund lifecycle,
-see [Setup](#setup) below.
 
----
+Published and live on npm. No clone, no keys, no config needed. It runs
+the full recovery pipeline immediately using a mock payment fallback, so
+the decision logic is visible in seconds, then prompts you interactively
+at the breakpoint. For real Razorpay orders, batch evidence, or the full
+payment and refund lifecycle, see [Setup](#setup) below.
 
 ## Why
 
-An agent is told: *"Buy me running shoes, budget ₹5000."* It picks a pair,
+An agent is told: "Buy me running shoes, budget ₹5000." It picks a pair,
 checks price and shipping, ready to pay: ₹4919. Then something changes
-before payment executes — shipping cost drifts, or the item sells out.
+before payment executes. Either the shipping cost drifts, or the item
+sells out entirely. This is the "let it go" moment every real checkout
+eventually hits: a price inflates, or the stock runs out from under you.
 
-A pure safety gate has exactly two moves here: let the now-wrong
-transaction through (unsafe), or kill it (a lost sale, indistinguishable
-to the merchant from cart abandonment). Neither helps the merchant.
-AgentTrace adds a third move: check whether the sale can be saved **within
-the buyer's original authorization** before giving up.
+A pure safety gate has exactly two moves here. Let the now-wrong
+transaction through, which is unsafe, or kill it, which is a lost sale
+indistinguishable to the merchant from cart abandonment. Neither helps
+anyone. AgentTrace adds a third move: check whether the sale can be saved
+within the buyer's original authorization before giving up on it.
 
-**Where this sits, checked against real code, not marketing pages:**
-[AP2](https://ap2-protocol.org) formalizes what an agent is authorized to
-spend. AgentOps/LangSmith trace what an agent did. Neither asks "is there
-still a way to complete this sale within what was already agreed to?"
-before failing. The closest real competitor we found — a published npm
-package (`razoragent`, 786 weekly downloads) with a real deterministic
-guardrail engine and a real SHA-256 idempotency lock — has, by our reading
-of its actual source, exactly two outcomes for any transaction: allowed or
-blocked. We searched its entire codebase for substitution or recovery
-logic and found none. That gap, not a marketing angle, is what this
-project fills.
+That third option is the whole point. It is not just "find something
+cheap enough." A recovery engine that only checks price is a bad
+salesman, one that would happily substitute a coffee mug for running
+shoes because it fits the budget. AgentTrace's recovery search is
+constrained to the same product category as what the buyer actually
+wanted, not just the same price range. The goal is diverting a
+transaction toward something that genuinely benefits the merchant (a
+completed sale instead of an abandoned cart) without raising the buyer's
+eyebrows (a real substitute, not a bait and switch).
 
 ## What it does
 
-1. **Observe** — a scripted (or real-LLM) agent picks a product against an intent + budget
-2. **Reason** — the decision and its justification are logged
-3. **Authorize** — a snapshot is taken: item, price, shipping, total, at decision time
-4. Something changes — shipping drifts, or the item sells out (scripted, deterministic)
-5. **Verify** — checks whether the original authorization still holds
-6. **Recover** — if not, searches for a substitute that is *both* in-budget
-   **and the same category** as the original item. Budget-only matching
-   was an earlier, weaker version of this: it's a bad salesman, offering
-   anyone anything that merely fits their wallet. A ₹399 mug fits almost
-   any budget in this demo's catalog; it is not a substitute for running
-   shoes. Category is a hard constraint, not a preference.
-7. **Control** — freezes, presents approve-as-is / accept-substitute /
-   abort. "Approve as-is" is withheld entirely if the drift would breach
-   the buyer's actual budget ceiling — not just the specific total they
-   happened to commit to.
-8. On approval, a **real Razorpay API call executes** — order, or a
-   genuine completed payment (see Evidence)
-9. **Audit** — every event above, in order, to a JSON trace file
+1. **Observe.** A scripted or real-LLM agent picks a product against an intent and a budget.
+2. **Reason.** The decision and its justification are logged.
+3. **Authorize.** A snapshot is taken: item, price, shipping, total, at decision time. This is the mandate.
+4. Something changes. Shipping drifts, or the item sells out. Scripted and deterministic, so the same failure reproduces every run.
+5. **Verify.** Checks whether the original authorization still holds.
+6. **Recover.** If not, searches for a substitute that is both in budget and the same category as the original item. Category is a hard constraint, not a preference.
+7. **Control.** Freezes and presents three choices: approve as is, accept the substitute, or abort. Approve as is is withheld entirely if the drift would breach the buyer's actual budget ceiling, not just the specific total they happened to commit to.
+8. On approval, a real Razorpay API call executes: an order, or a genuine completed payment. See Evidence below for exactly which.
+9. **Audit.** Every event above, in order, written to a JSON trace file.
 
 ## Evidence
 
-Every claim below is checkable independently in Razorpay's own Test Mode
-Dashboard — every ID is a real API response, not generated by this repo.
+Every ID below is checkable independently in Razorpay's own Test Mode
+Dashboard. None of it is generated by this repository.
 
-**A precision note, stated plainly:** "order created" means a real
-`orders.create()` call — a real ID, a real network round-trip — but not a
-completed payment. Orders start in `created` state; only a completed
-checkout produces a real *payment*. Both kinds of evidence exist here,
+A precision note, stated plainly: "order created" means a real
+`orders.create()` call, a real ID, a real network round trip, but not a
+completed payment. Orders start in a `created` state. Only a completed
+checkout produces a real payment. Both kinds of evidence exist here,
 labeled accurately, not blurred together.
 
-### Order-level (recovery engine decisions, no checkout needed)
+### Order-level evidence (recovery engine decisions, no checkout needed)
 
 Two committed single-run examples:
 [`traces/example-run-drift.json`](./traces/example-run-drift.json) (order
 `order_TVUqO5Fi8FmjZN`) and
 [`traces/example-run-oos.json`](./traces/example-run-oos.json) (order
-`order_TVUqU5oUAzSQO9`) — plus a real-LLM-driven decision in
+`order_TVUqU5oUAzSQO9`), plus a real-LLM-driven decision in
 [`traces/example-run-gemini.json`](./traces/example-run-gemini.json)
-(order `order_TVafwjSDaVZIwv`, Gemini's own reasoning quoted in the trace).
+(order `order_TVafwjSDaVZIwv`, Gemini's own reasoning quoted directly in
+the trace).
 
-**Batch evidence, full provenance, not just an aggregate claim:** an
-aggregate number is only as trustworthy as the receipts behind it. Every
-`npm run batch` run writes **both** a summary **and** every individual
-per-transaction trace into `traces/batch-evidence-<id>/` — so a skeptical
-reader can check each of the 8 (or more, see below) real order IDs
-individually, not just trust a total. The committed evidence folder for
-this project's official numbers is linked from the repo; here's what it
-showed as of the run this README quotes:
+**Batch evidence, with full provenance.** An aggregate number is only as
+trustworthy as the receipts behind it. Every `npm run batch` run writes
+both a summary and every individual per-transaction trace into
+`traces/batch-evidence-<id>/`, so each real order ID can be checked
+individually rather than trusted because a total said so.
 
 | | |
 |---|---|
 | Transactions run | 8 |
 | Orders created | 7 |
 | Aborted (no viable recovery) | 1 |
-| Recovered via substitute | 6 / 7 |
+| Recovered via substitute | 6 of 7 |
 | Total order value | ₹29,553 |
 | Value at risk (failures) | ₹32,233 |
 | **Value preserved by recovery** | **₹25,834** |
 
-That one abort is the important row, not a footnote — the system
-correctly refused to invent a recovery when none existed, even in
-auto-approve mode. A larger run (100 transactions, see `npm run
-batch:scale`) exists for the same reason a sample size of 8 invites doubt:
-more transactions, same honest mechanism, checkable the same way.
+That one abort is the important row, not a footnote. The system correctly
+refused to invent a recovery when none existed, even in auto-approve
+mode.
 
-### Payment-level (genuine checkout completed, not just an order)
+A larger randomized run (`npm run batch:scale`, real API calls, no
+seeded data) exists for the same reason a sample of 8 invites doubt: more
+transactions, the same honest mechanism, checkable the same way. Its
+first run surfaced a real rate-limiting issue under rapid sequential
+calls, documented honestly in Build Notes below rather than hidden.
 
-Requires one manual click per payment — no API can complete Razorpay's
+### Payment-level evidence (genuine checkout completed, not just an order)
+
+Requires one manual click per payment. No API can complete Razorpay's
 checkout on an agent's behalf, by design. Real captured payments and real
 refunds, from actual runs:
 
@@ -119,50 +112,50 @@ refunds, from actual runs:
 |---|---|---|
 | `pay_TW0HhLl64zlbOW` (₹2) | `rfnd_TW0MbO1gMyYtpl` | Full lifecycle, polling-confirmed |
 | `pay_TVzZsFM3LG1bee` (₹3) | `rfnd_TVza0QtNaM3VcF` | Full refund |
-| `pay_TVzbTQ7W84jX6F` (₹5) | `rfnd_TVzbZvoTlRqTKX` | Partial refund (40%) |
+| `pay_TVzbTQ7W84jX6F` (₹5) | `rfnd_TVzbZvoTlRqTKX` | Partial refund, 40% |
 
 ## Architecture
 
 ```
-OBSERVE (catalog.ts)     candidates + intent
-REASON  (brain.ts)       agent picks a product + states its justification
+OBSERVE (catalog.ts)     candidates and intent
+REASON  (brain.ts)       agent picks a product and states its justification
 VERIFY  (verify.ts)      checks whether the original authorization still holds
 RECOVER (recovery.ts)    same-category, in-budget substitute search, O(n)
 CONTROL (breakpoint.ts)  pauses, presents the 3-way choice, budget-breach-aware
 AUDIT   (tracer.ts)      every event, in order, to a JSON trace file
 ```
 
-`AgentBrain` (`brain.ts`) is a swappable interface — rule-based by default
-(zero API keys needed), with real Gemini and Claude implementations as
-drop-in alternatives.
+`AgentBrain` (`brain.ts`) is a swappable interface. Rule-based by default,
+so it runs with zero API keys, with real Gemini and Claude
+implementations available as drop-in alternatives.
 
 ## Scope
 
 **Built and evidenced:** two failure classes (cost drift, unavailability),
 category-and-budget-constrained recovery, budget-breach gating, real
-Razorpay orders and real completed payment+refund lifecycles, a batch
-evaluation harness, npm packaging.
+Razorpay orders, real completed payment and refund lifecycles, a batch
+evaluation harness at both small and larger scale, npm packaging.
 
 **Attempted, not relied on:** signature-verified webhook confirmation
-(`webhook-server.ts`) — the HMAC verification code is real and correct,
+(`webhook-server.ts`). The HMAC verification code is real and correct,
 but Razorpay's webhook URL validation rejects public tunnel domains in
-practice, which is outside this project's control. `verify-payment` and
-`refund-batch` fall back to polling automatically; that's the evidence
+practice, which is outside my control. `verify-payment` and
+`refund-batch` fall back to polling automatically. That is the evidence
 this project actually ships on.
 
-**Not built:** browser/VS Code extensions (real review-process latency
+**Not built:** browser or VS Code extensions (third-party review latency
 alone makes these structurally infeasible on this timeline, not just a
-time tradeoff), a general-purpose fraud/anomaly detector, arbitrary
+time tradeoff), a general-purpose fraud or anomaly detector, arbitrary
 failure-class coverage, a database (flat JSON trace files only).
 
 **Known limitation, stated rather than hidden:** the decision layer
-(`RuleBasedBrain`) has no category-awareness of its own — it picks the
+(`RuleBasedBrain`) has no category awareness of its own. It picks the
 highest-priced item under budget regardless of whether that category
-matches the stated intent. In this demo's scenarios the budget floor is
-kept above the mismatched item's price, so it never actually misfires, but
-that's a property of the chosen scenarios, not a structural guarantee.
-Fixing this — matching intent to category at decision time, not just at
-recovery time — is a natural v2 item, deliberately not done now.
+matches the stated intent. In this demo's scenarios the budget floor
+stays above the mismatched item's price, so it never actually misfires,
+but that is a property of the chosen scenarios, not a structural
+guarantee. Matching intent to category at decision time, not just at
+recovery time, is a natural next step, deliberately not done yet.
 
 ## Setup
 
@@ -171,13 +164,13 @@ Full instructions: [`SETUP.md`](./SETUP.md).
 ```
 npm install
 cp .env.example .env       # Razorpay test-mode keys, or leave blank for mock
-npm run demo:auto          # single scenario, cost-drift
-npm run demo:oos:auto      # single scenario, out-of-stock
-npm run demo:gemini        # real LLM decision (needs GEMINI_API_KEY)
+npm run demo:auto          # single scenario, cost drift
+npm run demo:oos:auto      # single scenario, out of stock
+npm run demo:gemini        # real LLM decision, needs GEMINI_API_KEY
 npm run batch               # 8 varied scenarios, real orders
 npm run batch:scale         # 100 varied scenarios, real orders
-npm run verify-payment      # real payment + refund (one manual checkout click)
-npm run refund-batch        # two more, full + partial refund
+npm run verify-payment      # real payment plus refund, one manual checkout click
+npm run refund-batch        # two more, full and partial refund
 ```
 
 ## Project structure
@@ -185,63 +178,77 @@ npm run refund-batch        # two more, full + partial refund
 ```
 src/
   types.ts       domain types: Product (with category), AuthorizedState, RecoveryOption
-  catalog.ts     synthetic catalog (incl. one deliberate cross-category item) + scripted failures
-  brain.ts       AgentBrain interface; RuleBasedBrain (default), ClaudeBrain, GeminiBrain
-  verify.ts      diffAuthorization() — the staleness check
-  recovery.ts    findRecoveryOption() — O(n), same-category + in-budget substitute search
-  breakpoint.ts  promptResolution() — budget-breach-aware 3-way control layer
-  payment.ts     attemptPayment() — real Razorpay order call, mock fallback if no keys
-  checkout.ts    createPaymentLink() / waitForPayment() / issueRefund() — real checkout lifecycle
-  webhook-server.ts  HMAC-SHA256-verified webhook receiver (real code, blocked by tunnel policy in practice)
-  tracer.ts      Tracer — records + persists the audit trail
-  engine.ts      runScenario() — shared pipeline used by index.ts and both batch scripts
+  catalog.ts     synthetic catalog (one deliberate cross-category item) and scripted failures
+  brain.ts       AgentBrain interface. RuleBasedBrain (default), ClaudeBrain, GeminiBrain
+  verify.ts      diffAuthorization(), the staleness check
+  recovery.ts    findRecoveryOption(), O(n), same-category plus in-budget search
+  breakpoint.ts  promptResolution(), budget-breach-aware 3-way control layer
+  payment.ts     attemptPayment(), real Razorpay order call, mock fallback if no keys
+  checkout.ts    createPaymentLink() / waitForPayment() / issueRefund(), real checkout lifecycle
+  webhook-server.ts  HMAC-SHA256-verified webhook receiver, blocked by tunnel policy in practice
+  tracer.ts      Tracer, records and persists the audit trail
+  engine.ts      runScenario(), the shared pipeline behind index.ts and both batch scripts
   index.ts       single-run demo, --scenario=drift|oos, --brain=gemini, --help
   batch.ts       8 hand-designed scenarios, full per-transaction evidence
   batch-scale.ts 100 randomized scenarios, same pipeline, statistical volume
-  verify-payment.ts  real payment + refund, webhook-first with polling fallback
-  refund-batch.ts    two more real payment+refund scenarios (full, partial)
+  verify-payment.ts  real payment plus refund, webhook-first with polling fallback
+  refund-batch.ts    two more real payment and refund scenarios (full, partial)
 traces/
   example-run-*.json         committed single-run evidence
-  batch-evidence-*/           full per-transaction evidence folders (see Evidence)
+  batch-evidence-*/           full per-transaction evidence folders, see Evidence
 ```
 
 ## Build notes
 
-An honest record of what actually happened building this, not a cleaned-up
-retrospective:
+An honest record of what actually happened building this, not a cleaned
+up retrospective.
 
-- **A refund failed at exactly ₹1**, the documented Razorpay minimum,
-  while ₹3 and ₹5 refunds with identical code succeeded. Moved the demo
-  amount above the boundary rather than assume the exact cause.
-- **A Gemini model name (`gemini-2.0-flash`) was retired mid-project.**
-  Google's own 404 response named the replacement directly
-  (`gemini-3.6-flash`); both `GeminiBrain` and `ClaudeBrain` now validate
-  API responses and throw specific errors instead of silently producing
-  garbage that crashes somewhere unrelated three calls later.
-- **A documented Razorpay test card (`4111 1111 1111 1111`) was rejected
-  as "international"** on this project's actual account, despite matching
-  older public documentation. NetBanking (any test bank) proved reliable
-  and became the recommended path — a documented number isn't the same as
-  a guaranteed one.
-- **Webhook confirmation was attempted and cut.** The signature
-  verification code is real and correct; Razorpay's own webhook URL
-  validation rejects `localtunnel` domains in practice, which is outside
-  this project's control. Recognizing "no further debugging session will
-  fix an external policy" and stopping was itself a deliberate call, not
-  a failure to keep going.
-- **A budget-only recovery search was replaced with a category-constrained
-  one** after a direct challenge: a system that only checks price is a bad
-  salesman — it'll substitute anything that fits the wallet, whether or
-  not it fits what the buyer wanted. The catalog now includes one
-  deliberately mismatched item specifically to prove the constraint
-  actually blocks a bad substitution, not just adds an unused field.
+A refund failed at exactly ₹1, the documented Razorpay minimum, while ₹3
+and ₹5 refunds with identical code succeeded. I moved the demo amount
+above the boundary rather than assume the exact cause without more
+evidence.
+
+A Gemini model name I had wired in, `gemini-2.0-flash`, was retired
+mid-project. Google's own 404 response named the replacement directly.
+Both `GeminiBrain` and `ClaudeBrain` now validate API responses and throw
+specific errors instead of silently producing garbage that crashes
+somewhere unrelated several calls later.
+
+A documented Razorpay test card, `4111 1111 1111 1111`, was rejected as
+international on my actual account, despite matching older public
+documentation. NetBanking with any test bank proved reliable and became
+the recommended path. A documented number is not the same as a
+guaranteed one.
+
+Webhook confirmation was attempted and cut. The signature verification
+code is real and correct. Razorpay's own webhook URL validation rejects
+localtunnel domains in practice, which is outside my control. Recognizing
+that no further debugging session would fix an external policy, and
+stopping there, was itself a deliberate call, not a failure to keep
+going.
+
+A budget-only recovery search was replaced with a category-constrained
+one after a direct challenge to my own design: a system that only checks
+price is a bad salesman, one that will substitute anything that fits the
+wallet whether or not it fits what the buyer wanted. The catalog now
+includes one deliberately mismatched item specifically to prove the
+constraint actually blocks a bad substitution, not just adds an unused
+field.
+
+A 100-transaction randomized batch run, fired with no delay between
+requests, produced a real spike in failed API calls. The earlier
+8-transaction batch never showed this. The most likely cause is
+Razorpay's own rate limiting under an unthrottled burst, which no real
+merchant integration would ever produce, since production traffic is
+naturally paced. This is documented here as a finding to fix, not
+smoothed over in the evidence numbers above.
 
 ## License
 
-MIT — see [`LICENSE`](./LICENSE).
+MIT. See [`LICENSE`](./LICENSE).
 
 ## Contributing
 
 This started as a solo buildathon project on a tight academic schedule.
-Issues and PRs are welcome; please open an issue first for anything larger
-than a small fix.
+Issues and pull requests are welcome. Please open an issue first for
+anything larger than a small fix.
