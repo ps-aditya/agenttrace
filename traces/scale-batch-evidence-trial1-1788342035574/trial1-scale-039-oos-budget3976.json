@@ -1,0 +1,131 @@
+{
+  "runId": "2026-09-02T09-40-13-552Z",
+  "startedAt": "2026-09-02T09:40:13.552Z",
+  "finishedAt": "2026-09-02T09:40:13.634Z",
+  "summary": {
+    "status": "captured",
+    "orderId": "order_TX7dFQ9pMqP8A3",
+    "note": "REAL: Razorpay test-mode order created successfully."
+  },
+  "events": [
+    {
+      "seq": 0,
+      "timestamp": "2026-09-02T09:40:13.552Z",
+      "type": "intent",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 3976
+      }
+    },
+    {
+      "seq": 1,
+      "timestamp": "2026-09-02T09:40:13.552Z",
+      "type": "candidates",
+      "data": {
+        "candidates": [
+          {
+            "id": "sku-201",
+            "name": "Trailrunner X2",
+            "price": 4799,
+            "category": "footwear",
+            "tier": "premium",
+            "tags": [
+              "trail",
+              "cushioned",
+              "durable"
+            ]
+          },
+          {
+            "id": "sku-202",
+            "name": "UrbanFlex Pro",
+            "price": 4299,
+            "category": "footwear",
+            "tier": "mid",
+            "tags": [
+              "urban",
+              "lightweight",
+              "breathable"
+            ]
+          },
+          {
+            "id": "sku-203",
+            "name": "SprintCore Lite",
+            "price": 3599,
+            "category": "footwear",
+            "tier": "budget",
+            "tags": [
+              "racing",
+              "lightweight",
+              "minimal"
+            ]
+          },
+          {
+            "id": "sku-301",
+            "name": "Everyday Ceramic Mug",
+            "price": 399,
+            "category": "kitchenware",
+            "tier": "budget",
+            "tags": [
+              "kitchen",
+              "ceramic",
+              "everyday"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "seq": 2,
+      "timestamp": "2026-09-02T09:40:13.552Z",
+      "type": "decision",
+      "data": {
+        "chosenId": "sku-203",
+        "reasoning": "Selected \"SprintCore Lite\" (₹3599) as the highest-value option within the ₹3976 budget, given intent: \"Buy running shoes for daily training.\"."
+      }
+    },
+    {
+      "seq": 3,
+      "timestamp": "2026-09-02T09:40:13.552Z",
+      "type": "authorization",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 3976,
+        "itemId": "sku-203",
+        "itemPrice": 3599,
+        "shippingCost": 120,
+        "cartTotal": 3719,
+        "currency": "INR",
+        "authorizationScope": "single_purchase",
+        "decidedAt": "2026-09-02T09:40:13.552Z"
+      }
+    },
+    {
+      "seq": 4,
+      "timestamp": "2026-09-02T09:40:13.552Z",
+      "type": "external_change",
+      "data": {
+        "field": "stock",
+        "itemId": "sku-203",
+        "inStock": true
+      }
+    },
+    {
+      "seq": 5,
+      "timestamp": "2026-09-02T09:40:13.552Z",
+      "type": "payment_attempt",
+      "data": {
+        "amount": 3719
+      }
+    },
+    {
+      "seq": 6,
+      "timestamp": "2026-09-02T09:40:13.634Z",
+      "type": "payment_result",
+      "data": {
+        "status": "captured",
+        "orderId": "order_TX7dFQ9pMqP8A3",
+        "note": "REAL: Razorpay test-mode order created successfully."
+      }
+    }
+  ]
+}

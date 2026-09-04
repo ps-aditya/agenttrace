@@ -15,9 +15,9 @@ export async function attemptPayment(
 
   if (!keyId || !keySecret) {
     return {
-      status: "captured",
+      status: "mock_order_created",
       orderId: `mock_${Date.now()}`,
-      note: "MOCK: no RAZORPAY_KEY_ID/RAZORPAY_KEY_SECRET set in env, simulated a captured order instead of calling the real API.",
+      note: "MOCK: no RAZORPAY_KEY_ID/RAZORPAY_KEY_SECRET set in env, simulated order creation instead of calling the real API.",
     };
   }
 
@@ -36,7 +36,7 @@ export async function attemptPayment(
     });
 
     return {
-      status: "captured",
+      status: "order_created",
       orderId: order.id,
       note: "REAL: Razorpay test-mode order created successfully.",
     };

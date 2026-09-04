@@ -1,77 +1,146 @@
-import { Product, RecoveryOption } from "./types";
+import {
+  AttributeValue,
+  MandateEvaluation,
+  Product,
+  RecoveryMandate,
+  RecoveryOption,
+  RecoveryScoreBreakdown,
+} from "./types";
 
-// This is the piece that turns AgentTrace from a pure safety gate into a
-// revenue-preserving one. A naive gated system, when it detects a problem,
-// only ever has two moves: let the (now-wrong) transaction through, or kill
-// it. Killing it is safe but it's also a lost sale -- for the merchant,
-// indistinguishable from cart abandonment. This module's job is to check,
-// before giving up, whether there's a bounded, honest way to keep the sale
-// alive: a substitute that still respects what the buyer actually
-// authorized (the budget), even if it's not the exact original item.
-//
-// --- Problem, stated formally ---
-// Given n candidates with prices and categories, an excluded item id, a
-// fixed shipping cost S, and a budget B: find the candidate c (c !=
-// excluded, category(c) == category(excluded)) maximizing price(c) + S
-// subject to price(c) + S <= B, or determine none exists.
-//
-// The category match is a HARD constraint, not a preference -- and it's
-// here because of a real failure mode a budget-only version of this
-// function has: fitting the budget is necessary but nowhere near
-// sufficient for something to be a legitimate substitute. A ₹399 coffee
-// mug fits almost any budget in this catalog; it is not a substitute for
-// running shoes. A recovery engine that only checks price is a bad
-// salesman -- it'll sell anyone anything that fits their wallet, whether
-// or not it fits what they actually wanted. Constraining to the same
-// category is a deliberately simple, honest way to keep "recovery" meaning
-// "a genuinely comparable alternative," not "whatever's cheap enough."
-//
-// --- Why a single pass, not a sort ---
-// A naive approach filters candidates, sorts them descending by total cost,
-// and takes the first: O(n log n) time, O(n) extra space for the sorted
-// copy. But the problem only asks for a single best element under a
-// constraint -- you never need a full ordering to answer that. Track the
-// best-so-far while scanning once instead: O(n) time, O(1) extra space,
-// which matches the unavoidable Omega(n) lower bound of having to inspect
-// every candidate at least once.
-//
-// Tie-break rule (explicit, not accidental): if two candidates produce the
-// identical cart total, the first one encountered in catalog order wins.
+// Ranking is deliberately the last step. A candidate must first preserve the
+// buyer's explicit mandate; a high similarity score can never compensate for
+// a missing size, capability, fulfilment term, or availability fact.
+const WEIGHTS = { priceCloseness: 0.5, tierMatch: 0.3, tagOverlap: 0.2 };
+const TIER_ORDER: Product["tier"][] = ["budget", "mid", "premium"];
+
+function scoreTierMatch(a: Product["tier"], b: Product["tier"]): number {
+  if (a === b) return 1;
+  return Math.abs(TIER_ORDER.indexOf(a) - TIER_ORDER.indexOf(b)) === 1 ? 0.5 : 0;
+}
+
+function scoreTagOverlap(a: string[], b: string[]): number {
+  if (a.length === 0 && b.length === 0) return 0;
+  const setA = new Set(a);
+  const setB = new Set(b);
+  const intersection = [...setA].filter((tag) => setB.has(tag)).length;
+  const union = new Set([...a, ...b]).size;
+  return union === 0 ? 0 : intersection / union;
+}
+
+function scoreCandidate(candidate: Product, original: Product): RecoveryScoreBreakdown {
+  const priceCloseness = Math.max(0, 1 - Math.abs(candidate.price - original.price) / original.price);
+  const tierMatch = scoreTierMatch(candidate.tier, original.tier);
+  const tagOverlap = scoreTagOverlap(candidate.tags, original.tags);
+  return {
+    priceCloseness,
+    tierMatch,
+    tagOverlap,
+    weightedScore:
+      priceCloseness * WEIGHTS.priceCloseness + tierMatch * WEIGHTS.tierMatch + tagOverlap * WEIGHTS.tagOverlap,
+  };
+}
+
+function matchesRequirements(
+  candidate: Product,
+  requirements: Record<string, AttributeValue>,
+  family: "functional" | "fulfilment"
+): string[] {
+  const reasons: string[] = [];
+  for (const [key, expected] of Object.entries(requirements)) {
+    const actual = candidate.attributes[key];
+    if (actual === undefined) reasons.push(`${family} attribute "${key}" is unknown`);
+    else if (actual !== expected) reasons.push(`${family} attribute "${key}" is ${JSON.stringify(actual)}, expected ${JSON.stringify(expected)}`);
+  }
+  return reasons;
+}
+
+/** Evaluate hard contract conditions independently of similarity ranking. */
+export function evaluateRecoveryMandate(
+  candidate: Product,
+  original: Product,
+  mandate: RecoveryMandate,
+  shippingCost: number
+): MandateEvaluation {
+  const rejectionReasons: string[] = [];
+  const cartTotal = candidate.price + shippingCost;
+
+  if (mandate.originalProductId !== original.id) rejectionReasons.push("mandate does not belong to the supplied original product");
+  if (!candidate.availableForSale) rejectionReasons.push("candidate is not available for sale");
+  if (candidate.id === original.id) rejectionReasons.push("candidate is the original product");
+  if (candidate.category !== mandate.category) rejectionReasons.push("candidate category differs from the mandate");
+  if (cartTotal > mandate.economics.maxCartTotal) rejectionReasons.push("candidate exceeds the authorized cart total");
+  if (
+    mandate.economics.maxItemPriceIncrease !== undefined &&
+    candidate.price - original.price > mandate.economics.maxItemPriceIncrease
+  ) {
+    rejectionReasons.push("candidate exceeds the authorized item-price increase");
+  }
+  rejectionReasons.push(...matchesRequirements(candidate, mandate.functionalRequirements, "functional"));
+  rejectionReasons.push(...matchesRequirements(candidate, mandate.fulfilmentRequirements, "fulfilment"));
+  return { eligible: rejectionReasons.length === 0, rejectionReasons };
+}
+
+/**
+ * Capture the explicit contract from facts observed when the agent chooses.
+ * Callers select fields; the demo passes its own small, visible field set.
+ */
+export function captureRecoveryMandate(
+  original: Product,
+  economics: RecoveryMandate["economics"],
+  options: {
+    functionalKeys?: string[];
+    fulfilmentKeys?: string[];
+    substitutionConsent?: RecoveryMandate["substitutionConsent"];
+  } = {}
+): RecoveryMandate {
+  const pick = (keys: string[]) => {
+    const values: Record<string, AttributeValue> = {};
+    for (const key of keys) {
+      const value = original.attributes[key];
+      if (value === undefined) throw new Error(`Cannot capture mandate: original product does not expose required attribute "${key}"`);
+      values[key] = value;
+    }
+    return values;
+  };
+
+  return {
+    originalProductId: original.id,
+    category: original.category,
+    functionalRequirements: pick(options.functionalKeys ?? []),
+    fulfilmentRequirements: pick(options.fulfilmentKeys ?? []),
+    economics,
+    substitutionConsent: options.substitutionConsent ?? "direct_equivalent",
+    capturedAt: new Date().toISOString(),
+  };
+}
+
 export function findRecoveryOption(
   candidates: Product[],
-  excludeId: string,
-  excludeCategory: string,
-  maxBudget: number,
+  original: Product,
+  mandate: RecoveryMandate,
   currentShippingCost: number
 ): RecoveryOption | null {
-  let best: { product: Product; cartTotal: number } | null = null;
+  let best: { product: Product; cartTotal: number; score: RecoveryScoreBreakdown; mandate: MandateEvaluation } | null = null;
 
   for (const candidate of candidates) {
-    if (candidate.id === excludeId) continue; // O(1) skip, no separate filter pass
-    if (candidate.category !== excludeCategory) continue; // hard constraint: must be genuinely comparable
-
-    const cartTotal = candidate.price + currentShippingCost;
-    if (cartTotal > maxBudget) continue; // violates the budget constraint, not eligible
-
-    if (best === null || cartTotal > best.cartTotal) {
-      best = { product: candidate, cartTotal };
+    const evaluation = evaluateRecoveryMandate(candidate, original, mandate, currentShippingCost);
+    if (!evaluation.eligible) continue;
+    const score = scoreCandidate(candidate, original);
+    if (best === null || score.weightedScore > best.score.weightedScore) {
+      best = { product: candidate, cartTotal: candidate.price + currentShippingCost, score, mandate: evaluation };
     }
   }
 
-  if (best === null) {
-    // Formal null case: either no same-category candidate exists, every
-    // same-category candidate was excluded, or every remaining one's cart
-    // total exceeds the budget. All are legitimate "no recovery possible"
-    // outcomes -- the caller falls back to abort, and that fallback is
-    // itself correct, bounded behavior, not a bug being papered over.
-    return null;
-  }
-
+  if (best === null) return null;
+  const { product, cartTotal, score, mandate: evaluation } = best;
   return {
-    product: best.product,
+    product,
     shippingCost: currentShippingCost,
-    cartTotal: best.cartTotal,
+    cartTotal,
     fitsOriginalBudget: true,
-    reasoning: `"${best.product.name}" (₹${best.product.price} + ₹${currentShippingCost} shipping = ₹${best.cartTotal}) is the same category as the original item, fits within the original ₹${maxBudget} budget, and is the closest-value substitute available.`,
+    score,
+    mandate: evaluation,
+    requiresHumanApproval: mandate.substitutionConsent === "human_approval_required",
+    reasoning: `"${product.name}" preserves every required mandate attribute, is available for sale, and totals ₹${cartTotal}. It ranked highest only after eligibility (price closeness ${score.priceCloseness.toFixed(2)}, tier match ${score.tierMatch.toFixed(2)}, tag overlap ${score.tagOverlap.toFixed(2)}).`,
   };
 }

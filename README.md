@@ -1,8 +1,8 @@
 # AgentTrace
 
-**When an AI agent's payment breaks mid-flow, most systems can only let it through or kill it. I built a third option: look for a bounded way to save the sale first.**
+**When an AI agent's checkout state changes mid-flow, AgentTrace verifies the buyer's original mandate before it attempts recovery.**
 
-Built for Razorpay Buildathon, Track 01 (AI Growth & Agentic Commerce).
+Built for Razorpay Buildathon, Track 03 (AI Revenue Recovery).
 
 ---
 
@@ -12,11 +12,9 @@ Built for Razorpay Buildathon, Track 01 (AI Growth & Agentic Commerce).
 npx @psaditya/agenttrace
 ```
 
-Published and live on npm. No clone, no keys, no config needed. It runs
-the full recovery pipeline immediately using a mock payment fallback, so
-the decision logic is visible in seconds, then prompts you interactively
-at the breakpoint. For real Razorpay orders, batch evidence, or the full
-payment and refund lifecycle, see [Setup](#setup) below.
+The zero-config demo runs immediately with a clearly-labelled mock order
+fallback. The package also exports a side-effect-free SDK and ships a
+merchant-authorized Shopify Storefront connector; see [Shopify recovery](#shopify-recovery) below.
 
 ## Why
 
@@ -32,15 +30,12 @@ indistinguishable to the merchant from cart abandonment. Neither helps
 anyone. AgentTrace adds a third move: check whether the sale can be saved
 within the buyer's original authorization before giving up on it.
 
-That third option is the whole point. It is not just "find something
-cheap enough." A recovery engine that only checks price is a bad
-salesman, one that would happily substitute a coffee mug for running
-shoes because it fits the budget. AgentTrace's recovery search is
-constrained to the same product category as what the buyer actually
-wanted, not just the same price range. The goal is diverting a
-transaction toward something that genuinely benefits the merchant (a
-completed sale instead of an abandoned cart) without raising the buyer's
-eyebrows (a real substitute, not a bait and switch).
+That third option is not "find something cheap enough." A similarity score
+can rank candidates; it cannot authorize them. AgentTrace captures a
+**Recovery Mandate** at decision time: exact functional requirements,
+fulfilment requirements, economic consent, and whether a direct equivalent
+may be automatically accepted. Missing provider data is treated as unknown
+and rejected. Only then may similarity rank eligible alternatives.
 
 ## What it does
 
@@ -49,9 +44,9 @@ eyebrows (a real substitute, not a bait and switch).
 3. **Authorize.** A snapshot is taken: item, price, shipping, total, at decision time. This is the mandate.
 4. Something changes. Shipping drifts, or the item sells out. Scripted and deterministic, so the same failure reproduces every run.
 5. **Verify.** Checks whether the original authorization still holds.
-6. **Recover.** If not, searches for a substitute that is both in budget and the same category as the original item. Category is a hard constraint, not a preference.
+6. **Recover.** If not, searches only for an available substitute that preserves every captured mandate requirement. Unknown is an abort condition, not a guess.
 7. **Control.** Freezes and presents three choices: approve as is, accept the substitute, or abort. Approve as is is withheld entirely if the drift would breach the buyer's actual budget ceiling, not just the specific total they happened to commit to.
-8. On approval, a real Razorpay API call executes: an order, or a genuine completed payment. See Evidence below for exactly which.
+8. On approval, the demo creates a Razorpay **order**. Order creation is not payment capture. The separate hosted Payment Link flow can produce a genuine captured test payment after a human completes checkout.
 9. **Audit.** Every event above, in order, written to a JSON trace file.
 
 ## Evidence
@@ -114,6 +109,29 @@ refunds, from actual runs:
 | `pay_TVzZsFM3LG1bee` (₹3) | `rfnd_TVza0QtNaM3VcF` | Full refund |
 | `pay_TVzbTQ7W84jX6F` (₹5) | `rfnd_TVzbZvoTlRqTKX` | Partial refund, 40% |
 
+## Shopify recovery
+
+AgentTrace can read live variant price and `availableForSale` facts from a
+Shopify store using a **merchant-authorized Storefront access token**. It
+does not scrape third-party stores, claim stock quantity or delivery data
+that Shopify has not supplied, or control a Shopify checkout.
+
+```bash
+# Inspect live variants and the provider facts that can be placed in a mandate.
+agenttrace shopify inspect --shop=store.myshopify.com --token=$TOKEN --handle=trail-shoe
+
+# Capture an authorization-time snapshot from a selected live variant.
+agenttrace shopify capture --shop=store.myshopify.com --token=$TOKEN \
+  --handle=trail-shoe --variant-id=gid://shopify/ProductVariant/123 \
+  --budget=5000 --functional=option.Size,tag.trail --out=mandate.json
+
+# Refetch the catalog and return recover, require_approval, or abort.
+agenttrace shopify recover --shop=store.myshopify.com --token=$TOKEN --mandate=mandate.json
+```
+
+The file produced by `capture` is an observed checkout snapshot—not a
+synthetic catalog—and captures the facts AgentTrace must preserve.
+
 ## Architecture
 
 ```
@@ -132,9 +150,10 @@ implementations available as drop-in alternatives.
 ## Scope
 
 **Built and evidenced:** two failure classes (cost drift, unavailability),
-category-and-budget-constrained recovery, budget-breach gating, real
-Razorpay orders, real completed payment and refund lifecycles, a batch
-evaluation harness at both small and larger scale, npm packaging.
+Recovery Mandate enforcement with unknown→abort, budget-breach gating,
+merchant-authorized Shopify catalog reads, real Razorpay orders, real
+completed Payment Link and refund lifecycles, a batch harness, and npm
+packaging.
 
 **Attempted, not relied on:** signature-verified webhook confirmation
 (`webhook-server.ts`). The HMAC verification code is real and correct,
@@ -177,18 +196,20 @@ npm run refund-batch        # two more, full and partial refund
 
 ```
 src/
-  types.ts       domain types: Product (with category), AuthorizedState, RecoveryOption
+  types.ts       domain types, RecoveryMandate, and payment/order state vocabulary
   catalog.ts     synthetic catalog (one deliberate cross-category item) and scripted failures
   brain.ts       AgentBrain interface. RuleBasedBrain (default), ClaudeBrain, GeminiBrain
   verify.ts      diffAuthorization(), the staleness check
-  recovery.ts    findRecoveryOption(), O(n), same-category plus in-budget search
+  recovery.ts    mandate checks, unknown→abort, then O(n) candidate ranking
   breakpoint.ts  promptResolution(), budget-breach-aware 3-way control layer
   payment.ts     attemptPayment(), real Razorpay order call, mock fallback if no keys
   checkout.ts    createPaymentLink() / waitForPayment() / issueRefund(), real checkout lifecycle
   webhook-server.ts  HMAC-SHA256-verified webhook receiver, blocked by tunnel policy in practice
   tracer.ts      Tracer, records and persists the audit trail
   engine.ts      runScenario(), the shared pipeline behind index.ts and both batch scripts
-  index.ts       single-run demo, --scenario=drift|oos, --brain=gemini, --help
+  index.ts       side-effect-free public SDK exports
+  cli.ts         demo plus Shopify inspect/capture/recover commands
+  providers/shopify.ts  merchant-authorized Shopify Storefront adapter
   batch.ts       8 hand-designed scenarios, full per-transaction evidence
   batch-scale.ts 100 randomized scenarios, same pipeline, statistical volume
   verify-payment.ts  real payment plus refund, webhook-first with polling fallback

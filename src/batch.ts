@@ -48,13 +48,13 @@ async function main() {
 
   // ── Aggregate ────────────────────────────────────────────────────────
   const total = results.length;
-  const captured = results.filter((r) => r.outcome.status === "captured");
+  const ordersCreated = results.filter((r) => r.outcome.status === "order_created");
   const failed = results.filter((r) => r.outcome.status === "failed");
   const aborted = results.filter((r) => r.outcome.status === "aborted");
   const hadFailure = results.filter((r) => r.failureOccurred);
   const recovered = results.filter((r) => r.recovered);
 
-  const revenueCaptured = captured.reduce((sum, r) => sum + (r.finalTotal ?? 0), 0);
+  const orderValueCreated = ordersCreated.reduce((sum, r) => sum + (r.finalTotal ?? 0), 0);
   const revenueAtRiskFromFailures = hadFailure.reduce((sum, r) => sum + r.originalAuthorizedTotal, 0);
   const revenuePreservedByRecovery = recovered.reduce((sum, r) => sum + (r.finalTotal ?? 0), 0);
 
@@ -62,12 +62,12 @@ async function main() {
   console.log("BATCH SUMMARY");
   console.log("─────────────────────────────────────────────");
   console.log(`Transactions run:              ${total}`);
-  console.log(`  → captured:                  ${captured.length}`);
+  console.log(`  → orders created:            ${ordersCreated.length}`);
   console.log(`  → aborted:                   ${aborted.length}`);
   console.log(`  → failed (API error):        ${failed.length}`);
   console.log(`Transactions with a failure:    ${hadFailure.length} / ${total}`);
   console.log(`  → recovered via substitute:  ${recovered.length} / ${hadFailure.length || 1}`);
-  console.log(`Total revenue captured:         ₹${revenueCaptured}`);
+  console.log(`Order value created:            ₹${orderValueCreated}`);
   console.log(`Revenue that was AT RISK:       ₹${revenueAtRiskFromFailures} (across transactions that hit a failure)`);
   console.log(`Revenue preserved by recovery:  ₹${revenuePreservedByRecovery}`);
   console.log("─────────────────────────────────────────────");
@@ -75,12 +75,12 @@ async function main() {
   const summary = {
     generatedAt: new Date().toISOString(),
     totalTransactions: total,
-    captured: captured.length,
+    ordersCreated: ordersCreated.length,
     aborted: aborted.length,
     failedApiError: failed.length,
     transactionsWithFailure: hadFailure.length,
     recoveredViaSubstitute: recovered.length,
-    totalRevenueCaptured: revenueCaptured,
+    totalOrderValueCreated: orderValueCreated,
     revenueAtRiskFromFailures: revenueAtRiskFromFailures,
     revenuePreservedByRecovery: revenuePreservedByRecovery,
     perTransaction: results.map((r) => ({

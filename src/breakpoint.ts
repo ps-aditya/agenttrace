@@ -46,7 +46,7 @@ export async function promptResolution(
     options.push({
       key: "s",
       choice: "accept_substitute",
-      label: `accept substitute — ${ctx.recovery.reasoning}`,
+      label: `${ctx.recovery.requiresHumanApproval ? "request approval for" : "accept"} substitute — ${ctx.recovery.reasoning}`,
     });
   }
   options.push({ key: "x", choice: "abort", label: "abort (no payment)" });
@@ -62,7 +62,7 @@ export async function promptResolution(
     // the substitute (keeps the sale, still bounded) over approving a
     // drifted total as-is, and only aborts if neither is available.
     const picked =
-      options.find((o) => o.choice === "accept_substitute") ??
+      (ctx.recovery?.requiresHumanApproval ? undefined : options.find((o) => o.choice === "accept_substitute")) ??
       options.find((o) => o.choice === "approve_as_is") ??
       options[options.length - 1];
     console.log(`  [--auto-approve set] auto-selecting: ${picked.label}\n`);

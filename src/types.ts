@@ -3,11 +3,19 @@
 // what the agent wants, what it decided, what it was authorized to spend,
 // and what actually happened when it tried to spend it.
 
+export type AttributeValue = string | number | boolean;
+
 export interface Product {
   id: string;
   name: string;
   price: number; // in INR (rupees, not paise) for readability
-  category: string; // constrains recovery to genuinely comparable items, not just "fits the budget"
+  category: string; // hard constraint: recovery never crosses categories
+  tier: "budget" | "mid" | "premium"; // positioning, distinct from price alone
+  tags: string[]; // feature signals used for similarity scoring, e.g. ["trail", "cushioned"]
+  // A provider supplies only facts it can actually observe. A mandate that
+  // requires a missing fact rejects the candidate; it never guesses.
+  attributes: Record<string, AttributeValue>;
+  availableForSale: boolean;
 }
 
 export interface AgentDecision {
@@ -62,14 +70,47 @@ export interface StaleAuthorizationDiff {
 export type FailureClass = "cost_drift" | "unavailable";
 
 // A candidate substitute the recovery engine found: something that still
-// satisfies the original budget and is a reasonable stand-in for what the
-// agent originally wanted. This is deliberately simple -- same catalog,
-// cheapest constraint that fits -- not a similarity-scoring ML system.
+// satisfies the original budget and category, and is scored against the
+// original item on price closeness, tier match, and tag overlap. Every
+// component of the score is exposed here, not just the final number --
+// "explainable" means a human can see exactly why this candidate won, not
+// just trust that it did.
+export interface RecoveryScoreBreakdown {
+  priceCloseness: number; // 0..1, 1 = identical price to original
+  tierMatch: number; // 0, 0.5, or 1
+  tagOverlap: number; // 0..1, Jaccard similarity of tags
+  weightedScore: number; // the combined score actually used to rank candidates
+}
+
+// The buyer's decision is a contract, not a similarity search. Functional
+// and fulfilment requirements are exact matches over provider-supplied facts.
+// If a candidate does not expose a required fact, it is not eligible.
+export interface RecoveryMandate {
+  originalProductId: string;
+  category: string;
+  functionalRequirements: Record<string, AttributeValue>;
+  fulfilmentRequirements: Record<string, AttributeValue>;
+  economics: {
+    maxCartTotal: number;
+    maxItemPriceIncrease?: number;
+  };
+  substitutionConsent: "direct_equivalent" | "human_approval_required";
+  capturedAt: string;
+}
+
+export interface MandateEvaluation {
+  eligible: boolean;
+  rejectionReasons: string[];
+}
+
 export interface RecoveryOption {
   product: Product;
   shippingCost: number;
   cartTotal: number;
   fitsOriginalBudget: boolean;
+  score: RecoveryScoreBreakdown;
+  mandate: MandateEvaluation;
+  requiresHumanApproval: boolean;
   reasoning: string;
 }
 
@@ -112,7 +153,9 @@ export interface TraceEvent {
 }
 
 export interface PaymentOutcome {
-  status: "captured" | "aborted" | "failed";
+  // Creating a Razorpay Order is not a captured Payment. Captured applies
+  // only to the hosted-checkout payment flow in checkout.ts.
+  status: "order_created" | "mock_order_created" | "failed";
   orderId?: string;
   reason?: string;
   note?: string;

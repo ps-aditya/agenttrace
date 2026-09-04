@@ -1,10 +1,17 @@
 {
-  "name": "@REPLACE_WITH_YOUR_NPM_USERNAME/agenttrace",
-  "version": "0.1.0",
+  "name": "@psaditya/agenttrace",
+  "version": "1.1.0",
   "description": "A recovery-aware breakpoint system for autonomous commerce agents: observe, reason, verify, recover, control, and audit agentic payment decisions.",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js"
+    }
+  },
   "bin": {
-    "agenttrace": "./dist/index.js"
+    "agenttrace": "./dist/cli.js"
   },
   "files": [
     "dist",
@@ -16,16 +23,17 @@
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build",
-    "demo": "ts-node src/index.ts",
-    "demo:auto": "ts-node src/index.ts --auto-approve",
-    "demo:oos": "ts-node src/index.ts --scenario=oos",
-    "demo:oos:auto": "ts-node src/index.ts --scenario=oos --auto-approve",
-    "demo:gemini": "ts-node src/index.ts --auto-approve --brain=gemini",
+    "demo": "ts-node src/cli.ts",
+    "demo:auto": "ts-node src/cli.ts --auto-approve",
+    "demo:oos": "ts-node src/cli.ts --scenario=oos",
+    "demo:oos:auto": "ts-node src/cli.ts --scenario=oos --auto-approve",
+    "demo:gemini": "ts-node src/cli.ts --auto-approve --brain=gemini",
     "batch": "ts-node src/batch.ts",
     "batch:scale": "ts-node src/batch-scale.ts",
     "verify-payment": "ts-node src/verify-payment.ts",
     "refund-batch": "ts-node src/refund-batch.ts",
-    "tunnel": "npx localtunnel --port 3737"
+    "tunnel": "npx localtunnel --port 3737",
+    "test": "npm run build && node --test dist/recovery.test.js"
   },
   "repository": {
     "type": "git",

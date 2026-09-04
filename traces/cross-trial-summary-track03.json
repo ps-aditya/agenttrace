@@ -1,0 +1,92 @@
+{
+  "generatedAt": "2026-09-02T09:42:57.309Z",
+  "trials": 5,
+  "transactionsPerTrial": 100,
+  "recoveryRateRange": {
+    "min": 80,
+    "max": 87.14285714285714,
+    "mean": 83.79166073821678
+  },
+  "valuePreservedRange": {
+    "min": 247944,
+    "max": 282156,
+    "mean": 264084
+  },
+  "perTrial": [
+    {
+      "trial": 1,
+      "totalTransactions": 100,
+      "ordersCreated": 100,
+      "aborted": 0,
+      "crashed": 0,
+      "transactionsWithFailure": 71,
+      "recoveredViaSubstitute": 60,
+      "recoveryRatePct": 84.50704225352112,
+      "totalOrderValue": 425140,
+      "valueAtRisk": 329549,
+      "valuePreservedByRecovery": 263240,
+      "durationMs": 39647,
+      "evidenceDir": "C:\\Users\\Admin\\agenttrace\\traces\\scale-batch-evidence-trial1-1788342035574"
+    },
+    {
+      "trial": 2,
+      "totalTransactions": 100,
+      "ordersCreated": 97,
+      "aborted": 3,
+      "crashed": 0,
+      "transactionsWithFailure": 70,
+      "recoveredViaSubstitute": 56,
+      "recoveryRatePct": 80,
+      "totalOrderValue": 413563,
+      "valueAtRisk": 321530,
+      "valuePreservedByRecovery": 247944,
+      "durationMs": 34875,
+      "evidenceDir": "C:\\Users\\Admin\\agenttrace\\traces\\scale-batch-evidence-trial2-1788342070604"
+    },
+    {
+      "trial": 3,
+      "totalTransactions": 100,
+      "ordersCreated": 98,
+      "aborted": 2,
+      "crashed": 0,
+      "transactionsWithFailure": 73,
+      "recoveredViaSubstitute": 59,
+      "recoveryRatePct": 80.82191780821918,
+      "totalOrderValue": 418022,
+      "valueAtRisk": 332787,
+      "valuePreservedByRecovery": 257501,
+      "durationMs": 35182,
+      "evidenceDir": "C:\\Users\\Admin\\agenttrace\\traces\\scale-batch-evidence-trial3-1788342105971"
+    },
+    {
+      "trial": 4,
+      "totalTransactions": 100,
+      "ordersCreated": 99,
+      "aborted": 1,
+      "crashed": 0,
+      "transactionsWithFailure": 70,
+      "recoveredViaSubstitute": 61,
+      "recoveryRatePct": 87.14285714285714,
+      "totalOrderValue": 423321,
+      "valueAtRisk": 327030,
+      "valuePreservedByRecovery": 269579,
+      "durationMs": 35696,
+      "evidenceDir": "C:\\Users\\Admin\\agenttrace\\traces\\scale-batch-evidence-trial4-1788342141844"
+    },
+    {
+      "trial": 5,
+      "totalTransactions": 100,
+      "ordersCreated": 98,
+      "aborted": 2,
+      "crashed": 0,
+      "transactionsWithFailure": 74,
+      "recoveredViaSubstitute": 64,
+      "recoveryRatePct": 86.48648648648648,
+      "totalOrderValue": 418222,
+      "valueAtRisk": 344506,
+      "valuePreservedByRecovery": 282156,
+      "durationMs": 35108,
+      "evidenceDir": "C:\\Users\\Admin\\agenttrace\\traces\\scale-batch-evidence-trial5-1788342177133"
+    }
+  ]
+}

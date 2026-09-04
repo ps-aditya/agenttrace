@@ -10,7 +10,8 @@ import { diffAuthorization } from "./verify";
 import { findRecoveryOption } from "./recovery";
 import { promptResolution } from "./breakpoint";
 import { attemptPayment } from "./payment";
-import { AuthorizedState, ExecutionState, FailureContext } from "./types";
+import { AuthorizedState, ExecutionState, FailureContext, RecoveryMandate } from "./types";
+import { captureRecoveryMandate } from "./recovery";
 
 export interface ScenarioConfig {
   label: string;
@@ -18,6 +19,7 @@ export interface ScenarioConfig {
   maxBudget: number;
   scenarioType: "drift" | "oos";
   autoApprove: boolean; // batch runs must be non-interactive
+  recoveryMandate?: RecoveryMandate;
   onNarration?: (line: string) => void; // optional: CLI hooks in here for live output
 }
 
@@ -26,7 +28,7 @@ export interface ScenarioResult {
   outcome: Record<string, unknown>;
   tracePath: string;
   originalAuthorizedTotal: number;
-  finalTotal: number | null; // null if aborted -- nothing was actually charged
+  finalTotal: number | null; // amount for which an order was created; not a captured payment
   failureOccurred: boolean;
   recovered: boolean;
   chosenItemName: string;
@@ -74,6 +76,14 @@ export async function runScenario(config: ScenarioConfig, brain: AgentBrain = ne
   };
   tracer.record("authorization", { ...authorized });
 
+  const recoveryMandate =
+    config.recoveryMandate ??
+    captureRecoveryMandate(chosen, { maxCartTotal: config.maxBudget }, {
+      functionalKeys: ["activity", "fit", "cushioning"],
+      fulfilmentKeys: ["returnWindowDays"],
+    });
+  tracer.record("authorization", { recoveryMandate });
+
   config.onNarration?.(`Agent decision: ${decision.reasoning}`);
   config.onNarration?.(
     `Authorized: ${chosen.name} @ ₹${chosen.price} + ₹${INITIAL_SHIPPING_COST} shipping = ₹${authorized.cartTotal}`
@@ -87,7 +97,7 @@ export async function runScenario(config: ScenarioConfig, brain: AgentBrain = ne
     tracer.record("external_change", { field: "stock", itemId: chosen.id, inStock });
 
     if (!inStock) {
-      const recovery = findRecoveryOption(candidates, chosen.id, chosen.category, config.maxBudget, INITIAL_SHIPPING_COST);
+      const recovery = findRecoveryOption(candidates, chosen, recoveryMandate, INITIAL_SHIPPING_COST);
       tracer.record("recovery_search", { found: !!recovery, recovery: recovery ?? null });
       failureCtx = { failureClass: "unavailable", diff: null, recovery, budgetBreached: false };
     } else {
@@ -108,7 +118,7 @@ export async function runScenario(config: ScenarioConfig, brain: AgentBrain = ne
 
     let recovery = null;
     if (diff.isStale) {
-      recovery = findRecoveryOption(candidates, chosen.id, chosen.category, config.maxBudget, actualShipping);
+      recovery = findRecoveryOption(candidates, chosen, recoveryMandate, actualShipping);
       tracer.record("recovery_search", { found: !!recovery, recovery });
     }
     const budgetBreached = execution.cartTotal > config.maxBudget;
@@ -140,15 +150,15 @@ export async function runScenario(config: ScenarioConfig, brain: AgentBrain = ne
       const result = await attemptPayment(rec.cartTotal, `agenttrace-batch-${rec.product.id}`);
       tracer.record("payment_result", { ...result, substituted: true, itemId: rec.product.id });
       outcome = { status: result.status, orderId: result.orderId, note: result.note, substituted: true, finalItem: rec.product.name, finalTotal: rec.cartTotal };
-      finalTotal = result.status === "captured" ? rec.cartTotal : null;
-      recovered = result.status === "captured";
+      finalTotal = result.status === "order_created" || result.status === "mock_order_created" ? rec.cartTotal : null;
+      recovered = result.status === "order_created" || result.status === "mock_order_created";
     } else {
       const total = execution ? execution.cartTotal : authorized.cartTotal;
       tracer.record("payment_attempt", { amount: total });
       const result = await attemptPayment(total, `agenttrace-batch-${chosen.id}`);
       tracer.record("payment_result", { ...result });
       outcome = { status: result.status, orderId: result.orderId, note: result.note, approvedAsIs: true };
-      finalTotal = result.status === "captured" ? total : null;
+      finalTotal = result.status === "order_created" || result.status === "mock_order_created" ? total : null;
     }
   } else {
     const total = execution ? execution.cartTotal : authorized.cartTotal;
@@ -156,7 +166,7 @@ export async function runScenario(config: ScenarioConfig, brain: AgentBrain = ne
     const result = await attemptPayment(total, `agenttrace-batch-${chosen.id}`);
     tracer.record("payment_result", { ...result });
     outcome = { status: result.status, orderId: result.orderId, note: result.note };
-    finalTotal = result.status === "captured" ? total : null;
+    finalTotal = result.status === "order_created" || result.status === "mock_order_created" ? total : null;
   }
 
   const tracePath = tracer.writeToFile(outcome);

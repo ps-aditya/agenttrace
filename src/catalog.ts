@@ -4,6 +4,12 @@ import { Product } from "./types";
 // data and is not meant to be. It exists purely to give the agent something
 // concrete to reason about.
 //
+// Tier and tags exist so recovery scoring has real signal to differentiate
+// on, not just price and category. Trailrunner X2 (premium, trail/cushioned)
+// and UrbanFlex Pro (mid, urban/lightweight) genuinely differ in more than
+// price -- the scoring in recovery.ts should reflect that, not just pick
+// "whichever is closest to the budget ceiling."
+//
 // sku-301 exists specifically to prove a point: it's cheap enough to fit
 // almost any budget in this demo's scenarios, but it's a coffee mug, not
 // footwear. Without a category constraint, a budget-only recovery search
@@ -13,10 +19,46 @@ import { Product } from "./types";
 // fits their wallet, whether or not it fits what they actually wanted.
 export function getCandidates(): Product[] {
   return [
-    { id: "sku-201", name: "Trailrunner X2", price: 4799, category: "footwear" },
-    { id: "sku-202", name: "UrbanFlex Pro", price: 4299, category: "footwear" },
-    { id: "sku-203", name: "SprintCore Lite", price: 3599, category: "footwear" },
-    { id: "sku-301", name: "Everyday Ceramic Mug", price: 399, category: "kitchenware" },
+    {
+      id: "sku-201",
+      name: "Trailrunner X2",
+      price: 4799,
+      category: "footwear",
+      tier: "premium",
+      tags: ["trail", "cushioned", "durable"],
+      attributes: { activity: "trail", fit: "regular", cushioning: "high", returnWindowDays: 30 },
+      availableForSale: true,
+    },
+    {
+      id: "sku-202",
+      name: "UrbanFlex Pro",
+      price: 4299,
+      category: "footwear",
+      tier: "mid",
+      tags: ["urban", "lightweight", "breathable"],
+      attributes: { activity: "urban", fit: "regular", cushioning: "medium", returnWindowDays: 30 },
+      availableForSale: true,
+    },
+    {
+      id: "sku-203",
+      name: "SprintCore Lite",
+      price: 3599,
+      category: "footwear",
+      tier: "budget",
+      tags: ["trail", "lightweight", "durable"],
+      attributes: { activity: "trail", fit: "regular", cushioning: "high", returnWindowDays: 30 },
+      availableForSale: true,
+    },
+    {
+      id: "sku-301",
+      name: "Everyday Ceramic Mug",
+      price: 399,
+      category: "kitchenware",
+      tier: "budget",
+      tags: ["kitchen", "ceramic", "everyday"],
+      attributes: { material: "ceramic", returnWindowDays: 30 },
+      availableForSale: true,
+    },
   ];
 }
 

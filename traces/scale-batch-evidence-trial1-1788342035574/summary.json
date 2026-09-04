@@ -1,0 +1,1017 @@
+{
+  "trial": 1,
+  "totalTransactions": 100,
+  "ordersCreated": 100,
+  "aborted": 0,
+  "crashed": 0,
+  "transactionsWithFailure": 71,
+  "recoveredViaSubstitute": 60,
+  "recoveryRatePct": 84.50704225352112,
+  "totalOrderValue": 425140,
+  "valueAtRisk": 329549,
+  "valuePreservedByRecovery": 263240,
+  "durationMs": 39647,
+  "evidenceDir": "C:\\Users\\Admin\\agenttrace\\traces\\scale-batch-evidence-trial1-1788342035574",
+  "perTransaction": [
+    {
+      "label": "trial1-scale-001-drift-budget4247",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TX7czy0XWvmCBL",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-002-oos-budget4598",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d0OKDTBdG4O",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-003-drift-budget4428",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7d0nWsmHWVSl",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-004-oos-budget5125",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d1EOzEJy9Nj",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-005-drift-budget5311",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7d1dPwTC5RQs",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-006-drift-budget4135",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TX7d25S7EkGthE",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-007-oos-budget4028",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7d2axR2IV9jm",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-008-oos-budget5266",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d2zM5ZrF8XR",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-009-oos-budget5508",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d3SuuSimukW",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-010-oos-budget4791",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d3qw9MLlRYa",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-011-oos-budget4032",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7d4I9waWnPWw",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-012-oos-budget5425",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d4iC27y1CdB",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-013-drift-budget4982",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7d57mqbGBsyI",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-014-oos-budget3958",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7d5Utwr1NwWI",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-015-oos-budget4865",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d5w21kRhWaz",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-016-drift-budget4575",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7d6K5dFbp3Od",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-017-oos-budget4199",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7d6hK60OvZBM",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-018-oos-budget4943",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d74j29b9dTe",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-019-oos-budget4216",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7d7RUrGrGWDR",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-020-oos-budget4201",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7d7sEfrp9SuA",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-021-oos-budget5576",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d8LiOwFp7Oj",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-022-oos-budget4448",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d8kAqS9WlDV",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-023-drift-budget5097",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7d97odjJ4A2o",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-024-oos-budget4939",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d9WXZF8Vv99",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-025-oos-budget4457",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7d9v2j9lemFK",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-026-drift-budget4771",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dAIEaQrPPui",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-027-oos-budget4210",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7dAg6U68cW7F",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-028-oos-budget4132",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7dB3wGteqkpG",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-029-drift-budget4242",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dBRN2YKqeen",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-030-drift-budget4638",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dBpnQspk1Aw",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-031-drift-budget5100",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dCFdJDxRmXh",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-032-oos-budget4438",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dCctpy62HXm",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-033-oos-budget4824",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dD1dLI7IfsB",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-034-oos-budget4931",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dDSLZNTvTBo",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-035-drift-budget4983",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dDqS2NmCtoD",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-036-oos-budget5268",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dEERc50pOus",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-037-oos-budget4719",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dEcD1pAhCDF",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-038-oos-budget5154",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dF1N16cJ3tX",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-039-oos-budget3976",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7dFQ9pMqP8A3",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-040-drift-budget4326",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dFpMz4Tu26d",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-041-oos-budget5544",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dGDaGgAUtyo",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-042-drift-budget4237",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dGcmEc5U0yJ",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-043-oos-budget4117",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7dH0uAffsq6B",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-044-oos-budget5441",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dHPRX3H5SsK",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-045-oos-budget4617",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dHouMqAwM2S",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-046-oos-budget5320",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dIC0WJEj37P",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-047-drift-budget4405",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dId69x7w67o",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-048-drift-budget5137",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dJ0fZuhQ93a",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-049-oos-budget4838",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dJPlyR0Aex2",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-050-oos-budget4953",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dJpD3TD10g8",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-051-oos-budget5579",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dKDsMd9AVb4",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-052-drift-budget4491",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dKeSoEafgYA",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-053-oos-budget4255",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7dL7fIgdvRki",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-054-drift-budget5569",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dLWwMqI8Pdy",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-055-oos-budget5570",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dLtsGoFcWTw",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-056-oos-budget5181",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dMHOVJXWAbH",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-057-oos-budget4733",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dMfGmmXZKjs",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-058-oos-budget4744",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dN3JwLSOmTe",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-059-oos-budget5477",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dNS126iuEbM",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-060-drift-budget4090",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dNqVAC15htM",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-061-drift-budget4807",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dOE3WOBcevr",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-062-drift-budget5394",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dObtYLYrnSS",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-063-oos-budget5355",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dP0jZxcsKBl",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-064-oos-budget4061",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7dPO5l362lTx",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-065-drift-budget4798",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dPkyEuYDKbd",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-066-drift-budget4956",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dQENTVIFtEm",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-067-oos-budget3931",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7dQe6Q7MGxG4",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-068-oos-budget5503",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dR0k6ZLIaO4",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-069-drift-budget5428",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dRNrqbttA7h",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-070-drift-budget5115",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dRmyxdKMm9C",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-071-oos-budget4904",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dS9rbzI2wHb",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-072-oos-budget4250",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3719,
+      "orderId": "order_TX7dSZBrzHomcv",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-073-oos-budget4436",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dSx9duGmf3F",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-074-drift-budget4954",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dTKRF9Zix2Z",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-075-drift-budget5001",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dTiS3EVIUGV",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-076-oos-budget4644",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dU5V29wiS9p",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-077-oos-budget5416",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dUT23WN61Gi",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-078-drift-budget5578",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dUprwxA3fdN",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-079-drift-budget4581",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dVCsipoJyAb",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-080-drift-budget3987",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dVavdmKmq65",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-081-drift-budget5133",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7dVyas2im0tT",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-082-drift-budget4362",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dWLyeVaE2ec",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-083-oos-budget5331",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dWjqcfE2WpI",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-084-oos-budget5289",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dX9Z3Q1yLV4",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-085-drift-budget4121",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dXXlv86BvNi",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-086-oos-budget4692",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dXuUVnlxFTN",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-087-oos-budget5124",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dYHeQsHgY5t",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-088-drift-budget4494",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dYf4Vo3kTMO",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-089-drift-budget4746",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dZ239hk7Cp8",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-090-drift-budget4086",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dZRXsGHYBHH",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-091-drift-budget4764",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dZoeLTiauML",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-092-drift-budget5180",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4659,
+      "orderId": "order_TX7daBpzSyYtzj",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-093-drift-budget4110",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dadmzKoiH4q",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-094-oos-budget4632",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7db24BWLvJ1G",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-095-oos-budget4384",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dbPiZdpjFYA",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-096-drift-budget4164",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dbmmDrJ7PwK",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-097-drift-budget3962",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": false,
+      "originalAuthorizedTotal": 3719,
+      "finalTotal": 3959,
+      "orderId": "order_TX7dc9we8XkIOi",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-098-oos-budget4621",
+      "status": "captured",
+      "failureOccurred": false,
+      "recovered": false,
+      "originalAuthorizedTotal": 4419,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dcXdePBlG02",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-099-oos-budget5222",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7dd11RO8HH5m",
+      "apiFailureReason": null
+    },
+    {
+      "label": "trial1-scale-100-oos-budget5535",
+      "status": "captured",
+      "failureOccurred": true,
+      "recovered": true,
+      "originalAuthorizedTotal": 4919,
+      "finalTotal": 4419,
+      "orderId": "order_TX7ddO7YXEtUGG",
+      "apiFailureReason": null
+    }
+  ]
+}

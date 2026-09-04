@@ -1,0 +1,207 @@
+{
+  "runId": "2026-09-02T09-40-28-033Z",
+  "startedAt": "2026-09-02T09:40:28.033Z",
+  "finishedAt": "2026-09-02T09:40:28.066Z",
+  "summary": {
+    "status": "captured",
+    "orderId": "order_TX7dVCsipoJyAb",
+    "note": "REAL: Razorpay test-mode order created successfully.",
+    "substituted": true,
+    "finalItem": "SprintCore Lite",
+    "finalTotal": 3959
+  },
+  "events": [
+    {
+      "seq": 0,
+      "timestamp": "2026-09-02T09:40:28.033Z",
+      "type": "intent",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 4581
+      }
+    },
+    {
+      "seq": 1,
+      "timestamp": "2026-09-02T09:40:28.033Z",
+      "type": "candidates",
+      "data": {
+        "candidates": [
+          {
+            "id": "sku-201",
+            "name": "Trailrunner X2",
+            "price": 4799,
+            "category": "footwear",
+            "tier": "premium",
+            "tags": [
+              "trail",
+              "cushioned",
+              "durable"
+            ]
+          },
+          {
+            "id": "sku-202",
+            "name": "UrbanFlex Pro",
+            "price": 4299,
+            "category": "footwear",
+            "tier": "mid",
+            "tags": [
+              "urban",
+              "lightweight",
+              "breathable"
+            ]
+          },
+          {
+            "id": "sku-203",
+            "name": "SprintCore Lite",
+            "price": 3599,
+            "category": "footwear",
+            "tier": "budget",
+            "tags": [
+              "racing",
+              "lightweight",
+              "minimal"
+            ]
+          },
+          {
+            "id": "sku-301",
+            "name": "Everyday Ceramic Mug",
+            "price": 399,
+            "category": "kitchenware",
+            "tier": "budget",
+            "tags": [
+              "kitchen",
+              "ceramic",
+              "everyday"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "seq": 2,
+      "timestamp": "2026-09-02T09:40:28.033Z",
+      "type": "decision",
+      "data": {
+        "chosenId": "sku-202",
+        "reasoning": "Selected \"UrbanFlex Pro\" (₹4299) as the highest-value option within the ₹4581 budget, given intent: \"Buy running shoes for daily training.\"."
+      }
+    },
+    {
+      "seq": 3,
+      "timestamp": "2026-09-02T09:40:28.033Z",
+      "type": "authorization",
+      "data": {
+        "intent": "Buy running shoes for daily training.",
+        "maxBudget": 4581,
+        "itemId": "sku-202",
+        "itemPrice": 4299,
+        "shippingCost": 120,
+        "cartTotal": 4419,
+        "currency": "INR",
+        "authorizationScope": "single_purchase",
+        "decidedAt": "2026-09-02T09:40:28.033Z"
+      }
+    },
+    {
+      "seq": 4,
+      "timestamp": "2026-09-02T09:40:28.033Z",
+      "type": "external_change",
+      "data": {
+        "field": "shippingCost",
+        "from": 120,
+        "to": 360
+      }
+    },
+    {
+      "seq": 5,
+      "timestamp": "2026-09-02T09:40:28.033Z",
+      "type": "recovery_search",
+      "data": {
+        "found": true,
+        "recovery": {
+          "product": {
+            "id": "sku-203",
+            "name": "SprintCore Lite",
+            "price": 3599,
+            "category": "footwear",
+            "tier": "budget",
+            "tags": [
+              "racing",
+              "lightweight",
+              "minimal"
+            ]
+          },
+          "shippingCost": 360,
+          "cartTotal": 3959,
+          "fitsOriginalBudget": true,
+          "score": {
+            "priceCloseness": 0.8371714352174924,
+            "tierMatch": 0.5,
+            "tagOverlap": 0.2,
+            "weightedScore": 0.6085857176087462
+          },
+          "reasoning": "\"SprintCore Lite\" (₹3599 + ₹360 shipping = ₹3959) is the same category as the original item, fits within the original ₹4581 budget, and scored highest among eligible substitutes (price closeness 0.84, tier match 0.50, tag overlap 0.20, weighted 0.61)."
+        }
+      }
+    },
+    {
+      "seq": 6,
+      "timestamp": "2026-09-02T09:40:28.033Z",
+      "type": "breakpoint_triggered",
+      "data": {
+        "failureClass": "cost_drift",
+        "diff": {
+          "isStale": true,
+          "fields": [
+            {
+              "field": "shippingCost",
+              "authorized": 120,
+              "actual": 360,
+              "delta": 240
+            },
+            {
+              "field": "cartTotal",
+              "authorized": 4419,
+              "actual": 4659,
+              "delta": 240
+            }
+          ],
+          "totalDelta": 240
+        },
+        "recoveryAvailable": true,
+        "budgetBreached": true
+      }
+    },
+    {
+      "seq": 7,
+      "timestamp": "2026-09-02T09:40:28.036Z",
+      "type": "breakpoint_decision",
+      "data": {
+        "choice": "accept_substitute",
+        "source": "auto"
+      }
+    },
+    {
+      "seq": 8,
+      "timestamp": "2026-09-02T09:40:28.036Z",
+      "type": "payment_attempt",
+      "data": {
+        "amount": 3959,
+        "itemId": "sku-203",
+        "substituted": true
+      }
+    },
+    {
+      "seq": 9,
+      "timestamp": "2026-09-02T09:40:28.065Z",
+      "type": "payment_result",
+      "data": {
+        "status": "captured",
+        "orderId": "order_TX7dVCsipoJyAb",
+        "note": "REAL: Razorpay test-mode order created successfully.",
+        "substituted": true,
+        "itemId": "sku-203"
+      }
+    }
+  ]
+}

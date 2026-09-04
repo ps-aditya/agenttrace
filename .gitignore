@@ -15,3 +15,5 @@ dist/
 !/traces/example-run-drift.json
 !/traces/example-run-oos.json
 !/traces/example-run-gemini.json
+/traces/scale-batch-evidence-trial*/
+*.tgz

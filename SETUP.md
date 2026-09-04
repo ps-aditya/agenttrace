@@ -20,6 +20,30 @@ npm run demo:auto     # runs fully automated, auto-approves the breakpoint
 npm run demo          # runs interactively, you type y/n at the breakpoint
 ```
 
+## 3a. Connect a Shopify store you administer
+
+AgentTrace's Shopify connector is read-only and requires a Storefront API
+access token issued by the merchant's own store. Add these values to `.env`:
+
+```
+AGENTTRACE_SHOPIFY_SHOP=your-store.myshopify.com
+AGENTTRACE_SHOPIFY_STOREFRONT_TOKEN=your_storefront_token
+```
+
+Then inspect a live product, capture the exact facts that an alternative
+must preserve, and later recheck against the live catalog:
+
+```
+node dist/cli.js shopify inspect --handle=product-handle
+node dist/cli.js shopify capture --handle=product-handle --budget=5000 \
+  --functional=option.Size,tag.trail --out=mandate.json
+node dist/cli.js shopify recover --mandate=mandate.json
+```
+
+The connector uses live variant price and sellability. Do not set a mandate
+field that Shopify does not expose: AgentTrace deliberately rejects unknown
+facts rather than guessing at a substitute.
+
 ## 4. Check the evidence
 Every run writes a full JSON trace to `traces/run-<timestamp>.json` — this is
 the audit artifact: every decision, the authorization snapshot, the external

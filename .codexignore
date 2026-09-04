@@ -1,0 +1,4 @@
+# .codexignore
+.env
+.env.
+!.env.example
