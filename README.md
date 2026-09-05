@@ -129,8 +129,8 @@ agenttrace shopify capture --shop=store.myshopify.com --token=$TOKEN \
 agenttrace shopify recover --shop=store.myshopify.com --token=$TOKEN --mandate=mandate.json
 ```
 
-The file produced by `capture` is an observed checkout snapshot—not a
-synthetic catalog—and captures the facts AgentTrace must preserve.
+The file produced by `capture` is an observed checkout snapshot and not a
+synthetic catalog. It captures the facts AgentTrace must preserve.
 
 ## Architecture
 
